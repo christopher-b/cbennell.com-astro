@@ -1,0 +1,17 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+const siteURL = Astro.site?.toString();
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait.jpeg';
+---
+
+<masthead aria-labelledby="site-title">
+  <a href={siteURL} rel="home">
+    <Image src={portrait} alt="" />
+
+    <h1 id="site-title">{SITE_TITLE}</h1>
+  </a>
+
+  <p>{SITE_DESCRIPTION}</p>
+</masthead>
+

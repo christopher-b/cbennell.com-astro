@@ -1,0 +1,59 @@
+/* Defines base and high-level font families, sizes and weights */
+/* Specific component details are defined elsewhere */
+
+:root {
+  font-family: var(--font-body);
+  font-size: var(--font-base);
+  font-feature-settings:
+   /* https://rsms.me/inter/lab/ */
+    /* Slashed zero */
+    "zero",
+    /* Tabular numbers */ "tnum",
+    /* Case-sensitive forms */ "case",
+    /* Capital spacing */ "cpsp",
+    /* Discretionary ligatures */ "dlig",
+    /* Open digits */ "ss01",
+    /* Disambiguation w/ zero */ "ss02",
+    /* Round quotes & commas */ "ss03",
+    /* Capital G with spur */ "cv10";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+body > footer,
+article footer,
+article post-meta {
+  font-family: var(--font-display);
+  font-weight: var(--font-display-weight-base);
+}
+
+h1 {
+  font-size: var(--font-2xl);
+}
+h2 {
+  font-size: var(--font-lg);
+}
+h3 {
+  font-size: var(--font-md);
+}
+h4 {
+  font-size: var(--font-base);
+}
+h5 {
+  font-size: var(--font-sm);
+}
+h6 {
+  font-size: var(--font-xs);
+}
+
+article > content {
+  font-size: var(--font-base);
+
+  pre {
+    font-size: var(--font-xs);
+  }
+}

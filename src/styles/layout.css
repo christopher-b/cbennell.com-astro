@@ -1,0 +1,31 @@
+body {
+  @mixin sidebar-parent 2rem;
+  padding: 2vw;
+}
+
+body > header {
+  @mixin sidebar 20rem;
+}
+
+body > main {
+  @mixin sidebar-content 50%;
+}
+
+body > footer {
+  min-inline-size: 100%;
+  border-block-start: thin solid var(--color-border);
+  padding-block: var(--s2);
+}
+
+article-list {
+  @mixin stack var(--s2);
+
+  article:not(:last-child) {
+    padding-bottom: var(--s2);
+    border-block-end: thin solid var(--color-neutral-100);
+
+    @mixin dark-mode {
+      border-block-end: thin solid var(--color-neutral-700);
+    }
+  }
+}

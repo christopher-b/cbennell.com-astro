@@ -1,0 +1,21 @@
+---
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+import type { CollectionEntry } from 'astro:content';
+import PostMeta from '@components/PostMeta.astro';
+
+const { post } = Astro.props;
+---
+
+<article card class="post" aria-labelledby={`post-header-${post.id}`}>
+	<PostMeta post={post} />
+  <!-- > components/post-meta tags=false }} -->
+  <h2 id={`post-header-${post.id}`}>
+		<a href={`/blog/${post.id}/`}>
+			{post.data.title}
+    </a>
+  </h2>
+
+  <excerpt>{post.data.description}</excerpt>
+</article>

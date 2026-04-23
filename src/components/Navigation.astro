@@ -1,0 +1,52 @@
+---
+import HeaderLink from '@components/HeaderLink.astro';
+import Icon from '@components/Icon.astro';
+---
+
+<nav aria-label="Primary">
+	<ul>
+		<li><HeaderLink href="/">Articles</HeaderLink></li>
+		<li><HeaderLink href="/lab">Lab</HeaderLink></li>
+		<li><HeaderLink href="/about">Me</HeaderLink></li>
+		<li aria-label="Additional navigation">
+			<menu>
+				<li>
+					<search>
+						<button aria-label="Search site">
+							<Icon name="search" />
+						</button>
+					</search>
+				</li>
+
+				<li>
+					<a href="/rss.xml" title="Subscribe to RSS feed" aria-label="Subscribe to RSS feed (opens in new tab)" target="_blank" rel="noopener">
+						<Icon name="rss" />
+					</a>
+				</li>
+			</menu>
+		</li>
+	</ul>
+
+	<menu class="nav-extras" aria-label="Social links">
+		<li>
+			<a href="https://github.com/christopher-b/" rel="noopener nofollow" target="_blank" aria-label="GitHub">
+				<Icon name="github" />
+			</a>
+		</li>
+		<li>
+			<a href="https://www.linkedin.com/in/christopher-bennell/" rel="noopener nofollow" target="_blank" aria-label="LinkedIn">
+				<Icon name="linkedin" />
+			</a>
+		</li>
+		<li>
+			<a href="https://bsky.app/profile/cbennell.com" rel="noopener nofollow" target="_blank" aria-label="BlueSky">
+				<Icon name="bsky" />
+			</a>
+		</li>
+		<li>
+			<a href="mailto:cbennell@hey.com" rel="noopener nofollow" aria-label="Email">
+				<Icon name="email" />
+			</a>
+		</li>
+	</menu>
+ </nav>

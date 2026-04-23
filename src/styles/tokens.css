@@ -1,0 +1,84 @@
+:root {
+  /* Layout  */
+  --measure: 70ch;
+
+  /* Spacing */
+  --ratio: 1.5;
+  --s-5: calc(var(--s-4) / var(--ratio));
+  --s-4: calc(var(--s-3) / var(--ratio));
+  --s-3: calc(var(--s-2) / var(--ratio));
+  --s-2: calc(var(--s-1) / var(--ratio));
+  --s-1: calc(var(--s0) / var(--ratio));
+  --s0: 1rem;
+  --s1: calc(var(--s0) * var(--ratio));
+  --s2: calc(var(--s1) * var(--ratio));
+  --s3: calc(var(--s2) * var(--ratio));
+  --s4: calc(var(--s3) * var(--ratio));
+  --s5: calc(var(--s4) * var(--ratio));
+
+  /* Font Scale */
+  /* @link https://utopia.fyi/type/calculator?c=360,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+  --font-2xs: clamp(0.64rem, 0.6556rem + -0.0201vw, 0.651rem);
+  --font-xs: clamp(0.7813rem, 0.7736rem + 0.0341vw, 0.8rem);
+  --font-sm: clamp(0.9375rem, 0.9119rem + 0.1136vw, 1rem);
+  --font-base: clamp(1.125rem, 1.0739rem + 0.2273vw, 1.25rem);
+  --font-md: clamp(1.35rem, 1.2631rem + 0.3864vw, 1.5625rem);
+  --font-lg: clamp(1.62rem, 1.4837rem + 0.6057vw, 1.9531rem);
+  --font-xl: clamp(1.944rem, 1.7405rem + 0.9044vw, 2.4414rem);
+  --font-2xl: clamp(2.3328rem, 2.0387rem + 1.3072vw, 3.0518rem);
+  --font-3xl: clamp(2.7994rem, 2.384rem + 1.8461vw, 3.8147rem);
+
+  /* Fonts
+  /* These are taken from https://modernfontstacks.com */
+  --font-antique: Superclarendon, "Bookman Old Style", "URW Bookman", "URW Bookman L", "Georgia Pro", Georgia, serif;
+  --font-classical-humanist: Optima, Candara, "Noto Sans", source-sans-pro, sans-serif;
+  --font-didone: Didot, "Bodoni MT", "Noto Serif Display", "URW Palladio L", P052, Sylfaen, serif;
+  --font-geohumanist: "Avenir", "Montserrat", "Corbel", "URW Gothic", "source-sans-pro", "sans-serif";
+  --font-handwritten: "Segoe Print", "Bradley Hand", Chilanka, TSCu_Comic, casual, cursive;
+  --font-humanist: Seravek, "Gill Sans Nova", Ubuntu, Calibri, "DejaVu Sans", source-sans-pro, sans-serif;
+  --font-industrial:
+    Bahnschrift, "DIN Alternate", "Franklin Gothic Medium", "Nimbus Sans Narrow", sans-serif-condensed, sans-serif;
+  --font-mono-code: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  --font-mono-slab: "Nimbus Mono PS", "Courier New", monospace;
+  --font-neogrotesque: Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial, sans-serif;
+  --font-old-style: "Iowan Old Style", "Palatino Linotype", "URW Palladio L", P052, serif;
+  --font-rounded-sans:
+    ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa, Manjari, "Arial Rounded MT", "Arial Rounded MT Bold",
+    Calibri, source-sans-pro, sans-serif;
+  --font-slab-serif: Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif", "Sitka Small", serif;
+  --font-system-ui: system-ui, sans-serif;
+  --font-transitional: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+
+  /* --font-display: var(--gh-font-heading, var(--font-humanist, sans-serif)); */
+  /* --font-display: var(--gh-font-heading, var(--font-geohumanist, sans-serif)); */
+  --font-body: var(--gh-font-body, var(--font-transitional, sans-serif));
+  --font-display: var(--gh-font-heading, Inter, sans-serif);
+  --font-mono: var(--font-mono-code, monospace);
+
+  --font-display-weight-base: 300;
+  --font-display-weight-bold: 500;
+
+  @supports (font-variation-settings: normal) {
+    --font-display: var(--gh-font-heading, InterVariable, sans-serif);
+  }
+
+  /* Colours */
+  --color-neutral-50: #f4f3f2;
+  --color-neutral-100: #e2e1df;
+  --color-neutral-200: #c8c4c0;
+  --color-neutral-300: #a8a29c;
+  --color-neutral-400: #8f8780;
+  --color-neutral-500: #79716b;
+  --color-neutral-600: #6e6460;
+  --color-neutral-700: #59524f;
+  --color-neutral-800: #4d4846;
+  --color-neutral-900: #453f3e;
+  --color-neutral-950: #262322;
+
+  --color-accent-light: #abf0c5;
+  --color-accent-med-light: #5e9c73;
+  --color-accent-med: #395042;
+  --color-accent-dark: #222f27;
+
+  --color-border: var(--color-neutral-300);
+}

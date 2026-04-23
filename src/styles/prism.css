@@ -1,0 +1,13 @@
+@import "./prism/theme-nord.css";
+/* @import "./prism/theme-custom.css"; */
+/* @import "./prism/theme-xonokai.css"; */
+/* @import "./prism/theme-duotone-sea.css"; */
+/* @import "./prism/theme-dracula.css"; */
+/* @import "./prism/theme-laserwave.css"; */
+/* @import "./prism/theme-night-owl.css"; */
+
+/* Fix prism line-number spacing */
+.prose pre code {
+  text-shadow: none;
+  font-size: inherit;
+}

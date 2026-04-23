@@ -1,0 +1,6 @@
+---
+const { name } = Astro.props;
+const icons = import.meta.glob('../assets/icons/*.svg', { query: '?raw', import: 'default', eager: true });
+const svg = icons[`../assets/icons/${name}.svg`];
+---
+<span set:html={svg} />

@@ -1,0 +1,54 @@
+/* https://every-layout.dev/layouts/cluster/ */
+@define-mixin cluster $gap: 1rem, $justify: flex-start {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+  justify-content: $justify;
+}
+
+/* https://every-layout.dev/layouts/frame/ */
+@define-mixin frame $ratio: 16/9 {
+  aspect-ratio: $ratio;
+  & > img,
+  & > video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+}
+
+@define-mixin dark-mode {
+  @media (prefers-color-scheme: dark) {
+    @mixin-content;
+  }
+}
+
+@define-mixin icon {
+  height: 1cap;
+  width: 1cap;
+}
+
+/* https://every-layout.dev/layouts/stack/ */
+@define-mixin stack $margin {
+  & > * + * {
+    margin-block-start: $margin;
+  }
+}
+
+/* https://every-layout.dev/layouts/sidebar/ */
+@define-mixin sidebar $basis {
+  flex-basis: $basis;
+  flex-grow: 1;
+}
+
+@define-mixin sidebar-content $min-inline-size {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: $min-inline-size;
+}
+
+@define-mixin sidebar-parent $gap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+}
