@@ -1,19 +1,9 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-
 import BaseHead from '@components/BaseHead.astro';
 import Footer from '@components/Footer.astro';
 import Masthead from '@components/Masthead.astro';
 import Navigation from '@components/Navigation.astro';
-import Card from '@components/Card.astro';
-
-const posts = (await getCollection('posts', ({ data }) => data.status == 'published')).sort(
-// const posts = (await getCollection('posts')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-
 ---
 
 <!doctype html>

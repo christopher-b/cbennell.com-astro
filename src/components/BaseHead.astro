@@ -3,7 +3,6 @@ import type { ImageMetadata } from 'astro';
 import '@styles/index.css';
 import FallbackImage from '@assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '@src/consts';
-import { Font } from 'astro:assets';
 
 interface Props {
 	title: string;
@@ -30,10 +29,8 @@ const { title, description, image = FallbackImage } = Astro.props;
 />
 <meta name="generator" content={Astro.generator} />
 
-<!-- <Font cssVariable="--font-inter" preload /> -->
-    <link rel="preconnect" href="https://rsms.me/">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
-
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
 <!-- Canonical URL -->
 <link rel="canonical" href={canonicalURL} />
