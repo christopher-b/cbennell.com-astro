@@ -4,7 +4,7 @@ pubDate: "2025-10-31T15:40:41.000Z"
 description: "Pundit's helper module makes it easy to do authorization checks in our Phlex views."
 slug: "using-pundit-in-phlex-components"
 status: "published"
-heroImage: "../../assets/images/glitch-rainbow.jpeg"
+heroImage: "glitch-rainbow.jpeg"
 tags:
   - "rails"
   - "phlex"

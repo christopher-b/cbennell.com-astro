@@ -4,7 +4,7 @@ pubDate: "2025-03-17T16:17:00.000Z"
 description: "A solution for reporting Kamal deployments to Honeybadger using Kamal post-deploy hooks."
 slug: "honeybadger-kamal-hooks"
 status: "published"
-heroImage: "../../assets/images/grain-color2-1.jpeg"
+heroImage: "grain-color2-1.jpeg"
 tags:
   - "kamal"
   - "ops"

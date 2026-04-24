@@ -4,7 +4,7 @@ pubDate: "2024-05-04T04:00:00.000Z"
 description: "What’s inside an LTI 1.3 JWT? This post walks through a Canvas launch token claim by claim, so you can decode and understand the data your Rails app receives."
 slug: "whats-in-a-canvas-lms-lti-1-3-jwt"
 status: "published"
-heroImage: "../../assets/images/glitch-vert.jpeg"
+heroImage: "glitch-vert.jpeg"
 tags:
   - "edtech"
   - "lti"

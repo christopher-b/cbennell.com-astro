@@ -4,7 +4,7 @@ pubDate: "2024-11-25T17:13:00.000Z"
 description: "I tested OpenProps, Bulma, and TailwindCSS while migrating to Bridgetown, and found they fall on a revealing continuum from pure CSS custom properties to all-in utility classes. Here's what I learned about each approach."
 slug: "three-css-frameworks"
 status: "published"
-heroImage: "../../assets/images/grain-blue.jpeg"
+heroImage: "grain-blue.jpeg"
 tags:
   - "css"
   - "tailwindcss"

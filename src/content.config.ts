@@ -4,12 +4,12 @@ import { z } from "astro/zod";
 
 const posts = defineCollection({
   loader: glob({ base: "./src/content/posts", pattern: "**/*.{md,mdx}" }),
-  schema: ({ image }) =>
+  schema: () =>
     z.object({
       title: z.string(),
       description: z.string(),
       pubDate: z.coerce.date(),
-      heroImage: z.optional(image()),
+      heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),
       tags: z.array(z.string()).optional(),
     }),
@@ -17,11 +17,11 @@ const posts = defineCollection({
 
 const pages = defineCollection({
   loader: glob({ base: "./src/content/pages", pattern: "**/*.{md,mdx}" }),
-  schema: ({ image }) =>
+  schema: () =>
     z.object({
       title: z.string(),
       description: z.string(),
-      heroImage: z.optional(image()),
+      heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),
     }),
 });

@@ -4,7 +4,7 @@ pubDate: "2024-05-06T14:08:00.000Z"
 description: "DeepLinking lets your LTI tool send content back to the LMS—like inserting rich HTML into Canvas’s editor. This guide walks through persisting launch data, building a response form, rendering Rails views into JWTs, and even making the whole flow dynamic with Turbo."
 slug: "building-an-lti-deeplinking-response-in-rails"
 status: "published"
-heroImage: "../../assets/images/vhs-rainbow.jpeg"
+heroImage: "vhs-rainbow.jpeg"
 tags:
   - "edtech"
   - "application design"

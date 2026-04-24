@@ -13,6 +13,12 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, description, heroImage } = post.data;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/covers/*.{jpg,jpeg,png,gif,webp,svg,avif}'
+);
+const loader = heroImage ? images[`/src/assets/covers/${heroImage}`] : undefined;
+const heroImageSrc = loader ? (await loader()).default : undefined;
 ---
 
 <!doctype html>
@@ -21,7 +27,7 @@ const { title, description, heroImage } = post.data;
     <BaseHead
       title={`${title} — ${SITE_TITLE}`}
       description={description ?? ''}
-      image={heroImage as ImageMetadata | undefined}
+      image={heroImageSrc}
     />
   </head>
   <body>

@@ -5,6 +5,8 @@ description: ""
 slug: "i-wrote-some-slop-and-i-didnt-like-it"
 status: "draft"
 draft: true
+tags:
+  - draft
 ---
 
 Had a hobby project I had been working on. A proof of concept, excuse to learn a new thing (in this case ATProto and SvelteKit). I wrote it by hand, stumbing a bit as I was working with a few technologies that were new to me. I got to MVP state, but still had a few things i wanted to add before I could call it "done". Then it sat around for three months without being touched.

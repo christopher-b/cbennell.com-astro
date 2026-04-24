@@ -1,10 +1,10 @@
 ---
-import { Image } from 'astro:assets';
 import { render } from 'astro:content';
-import { getPage } from '@lib/pages'
+import { getPage } from '@src/lib/pages';
 import DefaultLayout from '@layouts/Default.astro';
+import HeroImage from '@components/HeroImage.astro';
 
-const page = await getPage('About Christopher')
+const page = await getPage('About Christopher');
 const { Content } = await render(page);
 const { title, heroImage } = page.data;
 ---
@@ -13,9 +13,7 @@ const { title, heroImage } = page.data;
   <article class="post">
     <header>
       <h1>{title}</h1>
-      <picture feature>
-        {heroImage && <Image src={heroImage} alt="" />}
-      </picture>
+      <HeroImage filename={heroImage} />
     </header>
 
     <content>
@@ -23,4 +21,5 @@ const { title, heroImage } = page.data;
     </content>
   </article>
 </DefaultLayout>
+
 

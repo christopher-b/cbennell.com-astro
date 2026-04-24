@@ -4,7 +4,7 @@ pubDate: "2024-10-02T04:00:00.000Z"
 description: "After many years with Ionos, I finally made the switch to self-hosting on Hetzner. In this post, I walk through spinning up a VPS with WordPress preinstalled, hardening it with SSH keys and UFW, and configuring WordPress Multisite to serve multiple domains."
 slug: "running-wordpress-multisite-on-hetzner"
 status: "published"
-heroImage: "../../assets/images/grain-grn-yellow.jpeg"
+heroImage: "grain-grn-yellow.jpeg"
 tags:
   - "diy"
   - "wordpress"
@@ -65,7 +65,7 @@ Once the new vhosts are configured, we run `certbot --apache` to request the new
 Enabling WordPress Multisite features is [well-documented](https://learn.wordpress.org/tutorial/introduction-to-wordpress-multisite-networks/). However, setting up separate domains for each site is less straightforward. While the default options include subdomains (e.g., `site1.my-wp.com`) and subdirectories (e.g., `my-wp.com/site1`), you can easily configure separate domains. During the Multisite setup, choose **subdirectories**.
 
 You can then create new sites with subdirectory URLs:
-![Screenshot of WP new site creation with a subdirectory URL](../../assets/images/wp-screenshot-1.png)
+![Screenshot of WP new site creation with a subdirectory URL](../../assets/content/wp-screenshot-1.png)
 Next, edit the site settings to change the URL to the new domain. Easy!
-![Screenshot of the wordpress site settings, showing the URL has been edited to a complete, new domain](../../assets/images/wp-screenshot-2.png)
+![Screenshot of the wordpress site settings, showing the URL has been edited to a complete, new domain](../../assets/content/wp-screenshot-2.png)
 Overall, the process was easier than expected, and I’m pleased with the added control over my hosting setup. Best of all, it’s about a quarter of the cost of Ionos.

@@ -1,12 +1,12 @@
 ---
 import { render } from 'astro:content';
-import { getPublishedPosts } from '@lib/posts';
+import { getPublishedPosts } from '@src/lib/posts';
 
-import { Image } from 'astro:assets';
 import PostLayout from '@layouts/Post.astro';
 import PostMeta from '@components/PostMeta.astro'
 import TagList from '@components/TagList.astro'
 import NextPrevPost from '@components/NextPrevPost.astro';
+import HeroImage from '@components/HeroImage.astro';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -26,10 +26,8 @@ const { title, heroImage, tags } = post.data;
     <header>
       <h1>{title}</h1>
       <PostMeta post={post} />
-      <TagList tags={tags} />
-      <picture feature>
-        {heroImage && <Image src={heroImage} alt="" />}
-      </picture>
+      {tags && <TagList tags={tags} /> }
+      <HeroImage filename={heroImage} />
     </header>
 
     <content>
