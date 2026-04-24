@@ -1,8 +1,9 @@
 ---
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-const siteURL = Astro.site?.toString();
 import { Image } from 'astro:assets';
-import portrait from '../assets/portrait.jpeg';
+import { SITE_DESCRIPTION, SITE_TITLE } from '@src/consts';
+import portrait from '@assets/portrait.jpeg';
+
+const siteURL = Astro.site?.toString();
 ---
 
 <masthead aria-labelledby="site-title">

@@ -147,7 +147,8 @@ article > header {
   margin-block-end: var(--s2);
 }
 
-article post-meta {
+article post-meta,
+article tag-list {
   font-size: var(--font-xs);
   color: var(--text-color-muted);
 }

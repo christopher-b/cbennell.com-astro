@@ -9,7 +9,6 @@ tags:
   - "api"
   - "ruby"
   - "application design"
-  - "#Import 2026-02-12 04:57"
 ---
 
 Here's a technique I use when I want to wrap an API response in a simple class, rather than use a raw hash result. It allows easier access to the object properties, and allows you to attach some instance methods, with a minimal amount of boilerplate.
@@ -25,7 +24,7 @@ user.id
 
 ```
 
-This isn't just for aesthetics. Having the properties be method-like means we can use nice features like the *ampersand and object* operator.
+This isn't just for aesthetics. Having the properties be method-like means we can use nice features like the _ampersand and object_ operator.
 
 ```ruby
 users.map(&:id)

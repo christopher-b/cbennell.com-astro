@@ -8,7 +8,6 @@ heroImage: "../../assets/images/holo-2.jpeg"
 tags:
   - "rails"
   - "performance"
-  - "#Import 2026-02-12 04:57"
 ---
 
 I recently tried to optimize a slow page, and bumped into some limitations in the way Rails works with complex associations.
@@ -27,8 +26,8 @@ end
 
 app/models/course.rb
 
-```ruby
-class User 
+````ruby
+class User
 app/models/user.rb
 
 ```ruby
@@ -36,7 +35,7 @@ class Enrollment  { where(role: "teacher") }
   scope :student, -> { where(role: "student") }
 end
 
-```
+````
 
 app/models/enrollment.rb
 

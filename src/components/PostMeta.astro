@@ -1,13 +1,13 @@
 ---
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: CollectionEntry<'posts'>;
 }
-import { render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
 import FormattedDate from '@components/FormattedDate.astro';
+
 const { post } = Astro.props;
 const { remarkPluginFrontmatter } = await render(post);
-//const { minutesRead } = Astro.props.frontmatter;
 ---
 <post-meta>
 	<FormattedDate date={post.data.pubDate} />
@@ -15,17 +15,5 @@ const { remarkPluginFrontmatter } = await render(post);
   &bull;
 
 	{remarkPluginFrontmatter.minutesRead}
-
-{/*
-  <tag-list>
-    #foreach tags
-    <tag>
-      <a href="$url" title="$name" class="tag tag-$id $slug }" rel="tag">
-         name
-      </a>
-    </tag>
-    /foreach
-  </tag-list>
-*/}
 </post-meta>
 

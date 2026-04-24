@@ -8,14 +8,13 @@ heroImage: "../../assets/images/glitch-vert.jpeg"
 tags:
   - "edtech"
   - "lti"
-  - "#Import 2026-02-12 04:57"
 ---
 
 As a precursor to more in-depth articles about handling LTI 1.3 launches ([here](https://cbennell.com/posts/handling-lti-launches-in-rails/) and [here](https://cbennell.com/posts/building-an-lti-deeplinking-response-in-rails/)) in Ruby on Rails, I wanted to explore the contents of an LTI JWT. Receiving and decoding the JWT is part of step three of the four-step process of handling an LTI launch. My other article will cover those steps in more detail (although most of the work is being done by the [json-jwt](https://github.com/nov/json-jwt) gem).
 
 ---
 
-*This is part 1 of a 3-part series on LTI Launches. Check out the other articles:*
+_This is part 1 of a 3-part series on LTI Launches. Check out the other articles:_
 
 - Handling LTI Launches in Rails
 - Building an LTI DeepLinking Response in Rails
@@ -54,7 +53,7 @@ At a high level, the JWT contains a few different types of information:
 5. Information about the expected response.
 6. Custom information the LMS has been configured to send.
 
-The decoded JWT contains a JSON hash of values. A few of the low-level items have three-letter keys. The rest are the LTI *claims*, which include a long URL ending in the claim name. For example:
+The decoded JWT contains a JSON hash of values. A few of the low-level items have three-letter keys. The rest are the LTI _claims_, which include a long URL ending in the claim name. For example:
 
 ```JSON
 "https://purl.imsglobal.org/spec/lti/claim/version": "1.3.0"
@@ -65,7 +64,7 @@ When discussing these below, I won't list the whole URI, just the claim name. Th
 
 ## Request Information
 
-These are mostly the *registered claims*, meaning that they are part of the JWT spec, and form part of the security framework. These are specified in [IEFT RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1). Canvas sends the following:
+These are mostly the _registered claims_, meaning that they are part of the JWT spec, and form part of the security framework. These are specified in [IEFT RFC 7519](https://datatracker.ietf.org/doc/html/rfc7519#section-4.1). Canvas sends the following:
 
 ### aud: Audience
 
@@ -128,7 +127,7 @@ This string is originally passed from the tool to the LMS in the previous step o
 
 ```
 
-A representation of the user making the request. Canvas asks us to use the [Names and Roles API](https://canvas.instructure.com/doc/api/names_and_role.html) to turn this into a useful user identifier, but it's easier to use *Custom Fields* configured on the Developer Key.
+A representation of the user making the request. Canvas asks us to use the [Names and Roles API](https://canvas.instructure.com/doc/api/names_and_role.html) to turn this into a useful user identifier, but it's easier to use _Custom Fields_ configured on the Developer Key.
 
 ## Request Context
 

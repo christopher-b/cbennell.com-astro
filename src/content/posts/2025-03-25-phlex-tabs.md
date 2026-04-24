@@ -8,15 +8,14 @@ heroImage: "../../assets/images/grain-blue2-1.jpeg"
 tags:
   - "phlex"
   - "ui"
-  - "#Import 2026-02-12 04:57"
 ---
 
 I've been exploring [Phlex](https://phlex.fun) recently, and I've been really happy with how easy it is to migrate existing views and components. Phlex has features to cover a lot of the more tricky cases I've come across so far, the straightforward architecture allows me to come up with solutions for cases that Phlex doesn't support out-of-the-box.
 
 One such case is a [navigation tabs](https://getbootstrap.com/docs/5.0/components/navs-tabs/) component. Inspired by the [Yielding an Interface](https://www.phlex.fun/components/yielding.html#yielding-an-interface) section of the documentation, I came up with an implementation that looked something like this (simplified for clarity):
 
-```ruby
-class Components::Tabs 
+````ruby
+class Components::Tabs
 components/tabs.rb
 
 The `view_template` method yields itself (via Phlex magic) to the caller, and we call `#tab` in the block to add a new tab (including the title and tab body) to the tab list. We then iterate that tab list twice: once to render the tabs and once to render the contents. This component could be used like so:
@@ -32,13 +31,13 @@ Components::Tabs.new do |tabs|
   end
 end
 
-```
+````
 
 tabs-example.rb
 
 This method worked well, until I needed to include HTML in my tab title. It's awkward to pass HTML as a string to `#tab` (and we would need to use Phlex's `raw` and `safe`), and we're already using the block parameter to capture the tab contents. What I needed was a way to pass in two blocks when calling `#tab`, one for the title and one for the body. Here's what I came up with:
 
-```ruby
+````ruby
 class Components::Tabs  { raise "No title content provided" }
       @body_content = -> { raise "No body content provided" }
     end
@@ -70,7 +69,7 @@ class Components::Tabs  { raise "No title content provided" }
 
   def tab(title = nil, &body)
     tab_data = TabData.new
-    @tabs 
+    @tabs
 components/tabs.rb
 
 The big change here is how the `#tab` method works. There are now two ways to call this method; we can still use the existing interface, where we pass the tab title as a string and the tab body in the block. However, the internal behaviour has changed: we now create an instance of our new `TabData` object, which is basically a container for two blocks (or procs, really). We assign the passed-in body block to the new `tab_data`, create a new block for the title and assign that block to our `tab_data` as well.
@@ -98,11 +97,11 @@ Components::Tabs.new do |tabs|
   end
 end
 
-```
+````
 
 Here's the unabridged component, complete with Bootstrap classes and accessibility inclusions.
 
-```ruby
+````ruby
 class Components::Tabs  { raise "No title content provided" }
       @body_content = -> { raise "No body content provided" }
     end
@@ -164,5 +163,6 @@ class Components::Tabs  { raise "No title content provided" }
   # ```
   def tab(title = nil, &body)
     tab_data = TabData.new
-    @tabs 
+    @tabs
 components/tabs.rb
+````

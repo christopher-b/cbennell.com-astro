@@ -25,6 +25,7 @@ h4,
 h5,
 h6,
 body > footer,
+article header,
 article footer,
 article post-meta {
   font-family: var(--font-display);

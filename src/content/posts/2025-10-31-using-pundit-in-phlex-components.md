@@ -8,7 +8,6 @@ heroImage: "../../assets/images/glitch-rainbow.jpeg"
 tags:
   - "rails"
   - "phlex"
-  - "#Import 2026-02-12 04:57"
 ---
 
 [Pundit](https://github.com/varvet/pundit), the minimal authorization library for Ruby applications, provides a set of helpers to use in your views and controllers. These helpers are the primary way of interacting with Pundit policies.
@@ -17,7 +16,7 @@ All of the helper methods come from the `Pundit::Authorization` module. You're i
 
 ```erb
 
-  
+
 
 ```
 
@@ -25,8 +24,8 @@ To use this technique in [Phlex](https://www.phlex.fun/) components, we need to 
 
 If we're going to be doing authorization checks in many different views, it makes sense to include these in our `Base` view.
 
-```ruby
-class Views::Base 
+````ruby
+class Views::Base
 app/views/base.rb
 
 Now our components have access to all of the Pundit [helper methods](https://github.com/varvet/pundit/blob/main/lib/pundit/authorization.rb), so we can do something like this in our Phlex view:
@@ -37,4 +36,4 @@ def render_edit_link
     a(href: edit_post_path(@post)) { "Edit post" }
   end
 end
-```
+````

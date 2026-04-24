@@ -1,5 +1,5 @@
 ---
-title: "\"Every Layout\" Mixins"
+title: '"Every Layout" Mixins'
 pubDate: "2026-02-04T17:38:38.000Z"
 description: "Every Layout is a collection of composable CSS layout patterns. Here's how I've extracted them into a reusable pattern library I can use in any project."
 slug: "every-layout-mixins"
@@ -8,7 +8,6 @@ heroImage: "../../assets/images/AdobeStock_1884449252.jpeg"
 tags:
   - "css"
   - "frontend"
-  - "#Import 2026-02-12 04:57"
 ---
 
 There's a great feeling I get when I find a resource that presents elegant, comprehensive solutions to a problem; something that allows me to say "Good: I know how to do this properly now."
@@ -67,7 +66,6 @@ body > header {
 body > main {
   @mixin sidebar-content 50%;
 }
-
 ```
 
 These mixins are trivial to extract from the code provided by Every Layout.

@@ -1,0 +1,41 @@
+---
+import { getPublishedPosts } from '@src/lib/posts';
+import Icon from '@components/Icon.astro';
+
+const posts = await getPublishedPosts();
+const currentPostIndex = posts.findIndex(post => post.id === Astro.params.slug);
+
+const previousPost = ((currentPostIndex >= 0) && (currentPostIndex < posts.length - 1))
+    ? posts[currentPostIndex + 1]
+    : undefined;
+
+const nextPost = currentPostIndex > 0
+    ? posts[currentPostIndex - 1]
+    : undefined;
+---
+{
+  (previousPost || nextPost) && (
+    <nav aria-label="Next / previous posts">
+      <ul>
+        <li>
+          {previousPost && (
+            <Icon name="arrow-left" />
+            <span>Previous:</span>
+            <a href={`/posts/${previousPost.id}/`} rel="prev">
+              {previousPost.data.title}
+            </a>
+          )}
+        </li>
+        <li>
+          {nextPost && (
+            <span>Next:</span>
+            <a href={`/posts/${nextPost.id}/`} rel="next">
+              {nextPost.data.title}
+            </a>
+            <Icon name="arrow-right" />
+          )}
+        </li>
+      </ul>
+    </nav>
+  )
+}

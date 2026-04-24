@@ -1,5 +1,5 @@
 ---
-title: "On \"Layered Design for Ruby on Rails Applications\""
+title: 'On "Layered Design for Ruby on Rails Applications"'
 pubDate: "2024-04-28T02:11:00.000Z"
 description: "From DDD-inspired architecture to patterns like query objects and service layers, Dementyev’s book explores how Rails apps can evolve stronger abstractions over time. Ideal for developers who want to move beyond basics and design with clarity and intent."
 slug: "on-layered-design-for-ruby-on-rails-applications"
@@ -9,12 +9,11 @@ tags:
   - "books"
   - "application design"
   - "rails"
-  - "#Import 2026-02-12 04:57"
 ---
 
 [Layered Design for Ruby on Rails Applications](https://www.packtpub.com/product/layered-design-for-ruby-on-rails-applications/9781801813785) (By Vladimir Dementyev, published by Packt August 2023) discusses advanced topics in Ruby on Rails application design.
 
-The core of the book, as can be gathered from the title, is the concept of *layers*. Dementyev actually uses *layer* in two different ways:
+The core of the book, as can be gathered from the title, is the concept of _layers_. Dementyev actually uses _layer_ in two different ways:
 
 ## Architectural Layers
 
@@ -31,7 +30,7 @@ Concepts from DDD are explained, like the principle that low-level layers should
 
 An abstraction layer is a pattern or solution to a common problem that has evolved into a convention or a well-defined subsystem. For example: [Query Objects](https://thoughtbot.com/blog/a-case-for-query-objects-in-rails), an approach to managing complex database queries in the domain layer. Capturing these conventions into patterns has clear advantages: by giving them an API, the patterns become self-documenting, discoverable, well-defined responsibilities.
 
-One idea in the book I appreciated was the idea of growing into your abstractions, allowing them to emerge from your code over time. The trick is recognizing when it’s time to extract an abstraction from existing code. One indicator is when an object’s responsibilities stretch across architectural domains. Dementyev describes the infamous *Service Layer* as a kind of waiting room for abstractions that have yet to reveal themselves.
+One idea in the book I appreciated was the idea of growing into your abstractions, allowing them to emerge from your code over time. The trick is recognizing when it’s time to extract an abstraction from existing code. One indicator is when an object’s responsibilities stretch across architectural domains. Dementyev describes the infamous _Service Layer_ as a kind of waiting room for abstractions that have yet to reveal themselves.
 
 ## What Else?
 

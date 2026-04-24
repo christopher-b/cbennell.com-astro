@@ -8,7 +8,6 @@ heroImage: "../../assets/images/holo-1.jpeg"
 tags:
   - "rails"
   - "viewcomponent"
-  - "#Import 2026-02-12 04:57"
 ---
 
 Have you ever wanted to have a default value for a [ViewComponent slot](https://viewcomponent.org/guide/slots.html), or to make the default value dynamic?
@@ -21,13 +20,13 @@ Here's the component template.
 
 ```erb
 " role="alert">
-  
-    
-  
 
-  
-    
-  
+
+
+
+
+
+
 
 ```
 
@@ -86,7 +85,7 @@ Or with a spinner.
 
 ```erb
 
-  
+
     Content...
 
 ```
@@ -95,7 +94,7 @@ Or with an any icon we like, using the awkwardly named `.with_icon_icon`!
 
 ```erb
 
-  
+
 
 ```
 

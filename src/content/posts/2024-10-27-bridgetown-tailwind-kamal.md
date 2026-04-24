@@ -8,7 +8,6 @@ heroImage: "../../assets/images/grain-bw.jpeg"
 tags:
   - "bridgetown"
   - "api"
-  - "#Import 2026-02-12 04:57"
 ---
 
 As part of my [migration to Bridgetown](https://cbennell.com/posts/migrating-from-wordpress-to-bridgetown/), I needed a process to deploy my content. [Kamal](https://kamal-deploy.org/), the hot new Ruby deploy tool, was the obvious choice. But I ran into a tricky bug related to the TailwindCSS integration. I'm documenting that bug here for anyone who runs into the same problem.
@@ -93,7 +92,7 @@ module.exports = createTouchFilePlugin;
 
 plugins/touch_file.js
 
-*(All that just to touch a file...)*
+_(All that just to touch a file...)_
 
 We then include that plugin in the esbuild config:
 

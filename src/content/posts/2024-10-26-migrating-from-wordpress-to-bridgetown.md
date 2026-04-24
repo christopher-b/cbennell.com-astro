@@ -9,7 +9,6 @@ tags:
   - "bridgetown"
   - "wordpress"
   - "diy"
-  - "#Import 2026-02-12 04:57"
 ---
 
 This is my first post after moving my site to a new architecture. After using WordPress for 18 years across various projects—including this site’s previous version—I’m migrating to statically generated content with [Bridgetown](https://www.bridgetownrb.com/).
@@ -40,7 +39,7 @@ I had heard about Bridgetown on various newsletters, and I did a little digging.
 
 I spent a lot time considering and testing my options for a fronted framework. I have a long history with Bootstrap, which I think remains a solid choice. But it was overkill for my needs on this project. Plus, I was looking for an excuse to learn something new.
 
-I explored [Open Props](https://open-props.style/), [Bulma](https://bulma.io/) and [TailwindCSS](https://tailwindcss.com/). I plan to expand on this decision later, but it came down to this: the biggest problem with Tailwind is that it fills your HTML with many, many classes. I had a vision of clean, minimal HTML with only a small sprinkling of ids and classes. After a bit of time with other frameworks, this vision proved a fool’s errand. I was adding extra classes, IDs and HTML elements to satisfy the framework regardless. In some cases the frameworks had me adding custom classes to hang CSS rules from, *in addition to* utility classes on the same element. So I’m in the position of defining my presentation in two different places. Tailwind’s approach makes sense—it centralizes all styling in HTML classes, eliminating the need for custom CSS files altoether.
+I explored [Open Props](https://open-props.style/), [Bulma](https://bulma.io/) and [TailwindCSS](https://tailwindcss.com/). I plan to expand on this decision later, but it came down to this: the biggest problem with Tailwind is that it fills your HTML with many, many classes. I had a vision of clean, minimal HTML with only a small sprinkling of ids and classes. After a bit of time with other frameworks, this vision proved a fool’s errand. I was adding extra classes, IDs and HTML elements to satisfy the framework regardless. In some cases the frameworks had me adding custom classes to hang CSS rules from, _in addition to_ utility classes on the same element. So I’m in the position of defining my presentation in two different places. Tailwind’s approach makes sense—it centralizes all styling in HTML classes, eliminating the need for custom CSS files altoether.
 
 ## I Like SSG
 

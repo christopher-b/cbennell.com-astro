@@ -10,14 +10,13 @@ tags:
   - "edtech"
   - "lti"
   - "rails"
-  - "#Import 2026-02-12 04:57"
 ---
 
-This article explains how to set up your Rails application as an *LTI Tool Provider*, to handle LTI 1.3 launches from an LMS, including the OCID workflow, user authentication and what to do with the information you get from the LMS.
+This article explains how to set up your Rails application as an _LTI Tool Provider_, to handle LTI 1.3 launches from an LMS, including the OCID workflow, user authentication and what to do with the information you get from the LMS.
 
 ---
 
-*This is part 2 of a 3-part series on LTI Launches. Check out the other articles:*
+_This is part 2 of a 3-part series on LTI Launches. Check out the other articles:_
 
 - What’s in a Canvas LMS LTI 1.3 JWT?
 - Building an LTI DeepLinking Response in Rails
@@ -28,13 +27,13 @@ If you're reading this, you probably already know what LTI is. If not, the short
 
 For these examples, I'm using [Canvas](https://www.instructure.com/canvas) LMS, so the implementation details will be specific to Canvas. Because LTI is a standard, most of the details should be the same across platforms, but the specifics around configuring the LMS and some of the terminology may differ. I've only tested the approach with Canvas.
 
-The first part of this article will discuss handling an LTI launch and authenticating the user who initiated the launch. A future article will cover how to do a *LtiDeepLinkingResponse*, which allows us to return rich content to be embedded in the LMS.
+The first part of this article will discuss handling an LTI launch and authenticating the user who initiated the launch. A future article will cover how to do a _LtiDeepLinkingResponse_, which allows us to return rich content to be embedded in the LMS.
 
 Let's travel through the exciting world of LTI, OIDC, JWTs, JWKs and more.
 
 ## Overview
 
-In this guide, *Tool Provider* refers to the application that we're building.
+In this guide, _Tool Provider_ refers to the application that we're building.
 
 LTI 1.3 uses OpenID Connect ([OIDC) third-party flow](https://www.imsglobal.org/spec/security/v1p0/#openid_connect_launch_flow). I won't go into great detail, but at a very high level:
 
@@ -47,7 +46,7 @@ Let's dig in.
 
 ## Step 1: Login Initiation
 
-Your application will need to respond to a number of requests specific to the OIDC launch process, the first of which is the *Login Initiation*. Let's create a controller to handle the OIDC launch, and our first route. All you RESTful routes purists, avert your eyes.
+Your application will need to respond to a number of requests specific to the OIDC launch process, the first of which is the _Login Initiation_. Let's create a controller to handle the OIDC launch, and our first route. All you RESTful routes purists, avert your eyes.
 
 ```ruby
 post "/oidc/initiation", to: "oidc#initiation"
@@ -56,8 +55,8 @@ post "/oidc/initiation", to: "oidc#initiation"
 
 config/routes.rb
 
-```ruby
-class OIDCController 
+````ruby
+class OIDCController
 app/controllers/oidc_controller.rb
 
 The URL for this route is what we will supply in our Developer Key "OpenID Connect Initiation URL" field.
@@ -111,7 +110,7 @@ class OIDCAuthorizationUri
   end
 end
 
-```
+````
 
 app/models/oidc_authorization_url.rb
 
@@ -160,7 +159,7 @@ app/controllers/oidc_controller.rb
 
 ## Step 3: Authentication Response
 
-The LMS now bounces back to a *different* URL on our Tool Provider, specified in the "Redirect URIs" section of the Developer Key config.
+The LMS now bounces back to a _different_ URL on our Tool Provider, specified in the "Redirect URIs" section of the Developer Key config.
 
 It sends along a [JWT](https://jwt.io/introduction/) with a lot of useful information. I wrote [an article](https://cbennell.ocaduwebspace.ca/67/whats-in-a-canvas-lms-lti-1-3-jwt/) exploring the contents of the JWT. We will deal with that in the next step.
 
@@ -173,8 +172,8 @@ post "/oidc/callback", to: "oidc#callback"
 
 config/routes.rb
 
-```ruby
-class OIDCController 
+````ruby
+class OIDCController
 app/controllers/oidc_controller.rb
 
 The response contains a signed JWT in the `id_token` param. This JWT is [chock full of details](https://cbennell.ocaduwebspace.ca/67/whats-in-a-canvas-lms-lti-1-3-jwt/) about the LTI Launch, the launch context (like the course in which the tool was embedded) the user and LMS platform itself.
@@ -225,7 +224,7 @@ class JWTContent
   end
 end
 
-```
+````
 
 app/models/jwt_content.rb
 
@@ -257,12 +256,12 @@ app/model/jwt_content.rb
 
 We store and check nonces to prevent replay attacks; here's a simple model to save them in the database. If your application has a cache store, use it instead.
 
-```ruby
-class OauthNonce 
+````ruby
+class OauthNonce
 app/models/oauth_nonce.rb
 
 ```ruby
-class CreateOauthNonces 
+class CreateOauthNonces
 db/migrate/...create_oauth_nonces.rb
 
 ### Dealing With the Token Contents
@@ -280,7 +279,7 @@ Calling `JWTContent.new(jwt).id_token` will return an hash-like containing field
   ...
 }
 
-```
+````
 
 We can wrap this content another model to encapsulate the access details.
 
@@ -337,16 +336,16 @@ course_sis_id=$Canvas.course.sisSourceId
 
 There's a lot of info in the JWT. You can extract it all into the LaunchContext object, or only extract the specific fields you need. In this case, I'm extracting details needed for a DeepLinking response. (I'm also turning this model into an ActiveRecord, more on that in a future article)
 
-In our controller, we can use the LaunchContext to get the info we actually want. We create a JWTContent instance to decode the JWT passed from the LMS, and pass *that* into the LTI::LaunchContext.
+In our controller, we can use the LaunchContext to get the info we actually want. We create a JWTContent instance to decode the JWT passed from the LMS, and pass _that_ into the LTI::LaunchContext.
 
-```ruby
-class OIDCController 
+````ruby
+class OIDCController
 app/controllers/oidc_controller.rb
 
 Now all that's left is to authenticate the user and redirect.
 
 ```ruby
-class OIDCController 
+class OIDCController
 app/controllers/oidc_controller.rb
 
 ## Conclusion
@@ -362,3 +361,4 @@ There you have it, a complete LTI 1.3 Launch. Stay tuned for a future articles, 
 - json-jwt gem
 - Verifying Signed JWTs (JWS) with Ruby
 - OneLogin OpenId Connect Ruby Samples
+````

@@ -10,7 +10,6 @@ tags:
   - "application design"
   - "lti"
   - "rails"
-  - "#Import 2026-02-12 04:57"
 ---
 
 LTI DeepLinking is an LTI standard which enables passing content from your LTI Tool back to the LMS. This allows, for example, an RCE editor button placement that will launch your tool and return rich content to be embedded in the editor.
@@ -19,7 +18,7 @@ This article walks through the process of building an LTI Tool that will respond
 
 ---
 
-*This is part 3 of a 3-part series on LTI Launches. Check out the other articles:*
+_This is part 3 of a 3-part series on LTI Launches. Check out the other articles:_
 
 - What’s in a Canvas LMS LTI 1.3 JWT?
 - Handling LTI Launches in Rails
@@ -48,13 +47,13 @@ Note that this example is slightly different than the version in the other artic
 
 I'm serializing the `custom` field because I want some flexibility to add custom fields to the Developer Key, without needing to add additional columns to the table.
 
-```ruby
+````ruby
 module LTI
-  class LaunchContext 
+  class LaunchContext
 app/models/lti/launch_context.rb
 
 ```ruby
-class CreateLaunchContexts 
+class CreateLaunchContexts
 db/migrate/..._create_launch_contexts.rb
 
 *This example assumes custom variable substitution in the Developer Key:*
@@ -63,14 +62,14 @@ db/migrate/..._create_launch_contexts.rb
 user_sis_id=$Canvas.user.sisSourceId
 course_sis_id=$Canvas.course.sisSourceId
 
-```
+````
 
 As a reminder, we instantiate this object from our `OIDCController`. Additionally, we'll save the ID of the persisted LaunchContext to the session for later use.
 
 app
 
-```ruby
-class OIDCController 
+````ruby
+class OIDCController
 /controllers/oidc_controller.rb
 
 ## Preparing the Response
@@ -88,7 +87,7 @@ Let's break down some of the steps we will be following:
 We give ourselves access to the `LaunchContext` that we've saved in the session.
 
 ```ruby
-class ToolController 
+class ToolController
 app/controllers/tools_controller.rb
 
 Let's take a look at the template for our Tool update page. The essential thing we need to do is `POST` back to the LMS with our encoded content.
@@ -96,9 +95,9 @@ Let's take a look at the template for our Tool update page. The essential thing 
 ```ruby
  id=deep_link_reponse_form>
   >
-  
 
-```
+
+````
 
 app/views/tools/edit.html.erb
 
@@ -113,19 +112,19 @@ We're already saving that value in our `LaunchContext`, so we can insert it into
 
 We're going to be adding a bit of logic to this form, so let's wrap it in a [ViewComponent](https://cbennell.com/). We'll pass the `LaunchContext` in as a parameter, so we have access to the `deep_link_return_url` and a few other values we will need later. We pass it into the view and render it.
 
-```ruby
-class DeepLinkResponseFormComponent 
+````ruby
+class DeepLinkResponseFormComponent
 app/component/deep_link_response_form_component.rb
 
 ```ruby
-class ToolsController 
+class ToolsController
 app/controllers/tools_controller.rb
 
 ```ruby
  id=deep_link_reponse_form>
   >
 
-```
+````
 
 app/components/deep_link_response_form_component.html.erb
 
@@ -144,7 +143,7 @@ We can get Rails to give us the output of a controller action by calling `#rende
 1. The name of the action we want to render.
 2. The parameters that the controller would pass to the view, as instance variables (known as assigns)
 
-An **important caveat** (and shortcoming) with this approach is that the controller callbacks will not be called, and the controller action method itself (`ToolsController#show`) will not run. We have to be careful about how we use this technique. I would recommend not using this approach to call actions on *other* controllers. Because we're handing this request from within the `ToolsController,` I think we can get away with it.
+An **important caveat** (and shortcoming) with this approach is that the controller callbacks will not be called, and the controller action method itself (`ToolsController#show`) will not run. We have to be careful about how we use this technique. I would recommend not using this approach to call actions on _other_ controllers. Because we're handing this request from within the `ToolsController,` I think we can get away with it.
 
 We'll create yet another class to encapsulate this behaviour. It's just a simple immutable value object with a single method, so we use `Data.define`.
 
@@ -163,20 +162,20 @@ app/models/lti/response_context.rb
 
 Back to `ToolsController`. Let's create a `ResponseContext` and pass it into a `DeepLinkResponseFormComponent`.
 
-```ruby
-class ToolController 
+````ruby
+class ToolController
 app/controllers/tools_controller.rb
 
 Now our `DeepLinkResponseFormComponent` has everything it needs to render itself properly. Let's tell it how to fetch the response HTML.
 
 ```ruby
-class DeepLinkResponseFormComponent 
+class DeepLinkResponseFormComponent
 app/component/deep_link_response_form_component.rb
 
 And finally, we can prepare the encoded response. The LMS is expecting a JWT, so we rely, once again, on the [json-jwt](https://github.com/nov/json-jwt) gem to do this for us, using some details from the initial LMS launch.
 
 ```ruby
-class DeepLinkResponseFormComponent 
+class DeepLinkResponseFormComponent
 app/component/deep_link_response_form_component.rb
 
 Oops, we also need to provide a signing key.
@@ -192,13 +191,13 @@ class SSL
   end
 end
 
-```
+````
 
 app/models/ssl.rb
 
 ## Dynamic Updates
 
-One additional requirement for my use-case was that the response form update itself dynamically. Essentially, the user loads the *edit* page once, performs a number of actions, then submits the form. I needed a way to get the form to update itself with the most up-to-date copy of the HTML content. Turbo Frames to the rescue.
+One additional requirement for my use-case was that the response form update itself dynamically. Essentially, the user loads the _edit_ page once, performs a number of actions, then submits the form. I needed a way to get the form to update itself with the most up-to-date copy of the HTML content. Turbo Frames to the rescue.
 
 The solution is fairly simple. We wrap the response form in a Turbo Frame, and tell the controller to respond to Turbo Streams. When the Tool form is submitted, it will refresh the page, including the response form and it's encoded JWT.
 
@@ -206,30 +205,30 @@ We also add a button to submit the response form.
 
 ```ruby
 
-  
-  
 
-  
+
+
+
 
 ```
 
 app/views/tools/edit.html.erb
 
-```ruby
-class ToolController 
+````ruby
+class ToolController
 app/controllers/tools_controller.rb
 
 We also add a button to submit the response form. This can get a bit awkward depending on how you do your layout. Rails doesn't like to render a form within a form (fair) so we create a submit button for the response form that explicitly targets that form using the `form` html attribute. We can stick that button anywhere, even within a different form, and it will always submit the response form itself.
 
 ```ruby
 
-  
-  
-  
 
-  
 
-```
+
+
+
+
+````
 
 app/views/tools/edit.html.erb
 

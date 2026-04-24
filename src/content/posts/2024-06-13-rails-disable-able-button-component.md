@@ -1,5 +1,5 @@
 ---
-title: "Rails \"Disable-able\" Button ViewComponent / Phlex Component"
+title: 'Rails "Disable-able" Button ViewComponent / Phlex Component'
 pubDate: "2024-06-13T14:31:00.000Z"
 description: "Need a button that enables or disables itself in response to events? I explain how to build a reusable DisableableButton in Rails using ViewComponent (or Phlex) plus a tiny Stimulus controller—perfect for forms where you only want to allow submission once inputs are valid."
 slug: "rails-disable-able-button-component"
@@ -11,7 +11,6 @@ tags:
   - "rails"
   - "stimulus"
   - "viewcomponent"
-  - "#Import 2026-02-12 04:57"
 ---
 
 Here's a simple ViewComponent/Stimulus controller for a disable-able button; that is, a button that you can programmatically disable/enable. You could use this to prevent form submission until all fields are valid.
@@ -150,7 +149,7 @@ Now we render the button.
 
 ```ruby
 
-  
+
   Submit Grades
 
 ```

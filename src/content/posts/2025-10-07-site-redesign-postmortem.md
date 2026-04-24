@@ -10,7 +10,6 @@ tags:
   - "tailwindcss"
   - "vanilla"
   - "ui"
-  - "#Import 2026-02-12 04:57"
 ---
 
 I just launched a redesign of this site, and wanted to record some thoughts on the motivation, process and outcomes.
@@ -34,15 +33,13 @@ Here's an example of some actual HTML I wrote:
 Is this any better?
 
 ```html
-    
+
 ```
 
 Marginally, perhaps, but still not good. I found myself putting a lot of effort into organizing these classes into something comprehensible. I also really dislike how the indentation looks when tag contents are included:
 
 ```html
-
-  Content
-
+Content
 ```
 
 It's awkward, and it's difficult to parse large amounts of code that follow this shape.
@@ -58,42 +55,12 @@ The immediate benefit of this change was a return to clean HTML, no longer full 
 Here's some actual HTML from this site (slightly streamlined). It may seem simple, but it takes effort to pare the structure down and to avoid elements that are only there to hang styles. I wouldn't have been able to get to this minimalism with the litany of classes that Tailwind requires.
 
 ```html
-
-  
-    
-      ...
-    
-    
-      ...
-    
-  
-  
-    
-      
-# Articles
-
-      
-        
-25 Mar 2025 
-          &bull;
-          4 min read
-        
-
-        
-## ...
-
-        ...
-      
-      ...
-    
-  
-
-  ...
-
+... ... # Articles 25 Mar 2025 &bull; 4 min read ## ... ... ... ...
 ```
 
 ### Locality
-One of the unexpected benefits of moving from Tailwind back to plain CSS was improved locality of code. Locality seems like one of the most convincing features of Tailwind, right? All the styles for an element are right there on the element itself. But we end up distributing *related* aspects of our presentation. Classes related to, for example, the high-level layout of your site are spread across many HTML tags and perhaps even in separate templates. As we add, remove, and refine utility classes, it becomes hard to get a birds-eye view of all of the CSS that is contributing to our layout. With vanilla CSS, we can put all layout rules in a single file, and see them at a glance. It's a locality of aspects, rather than locality of material.
+
+One of the unexpected benefits of moving from Tailwind back to plain CSS was improved locality of code. Locality seems like one of the most convincing features of Tailwind, right? All the styles for an element are right there on the element itself. But we end up distributing _related_ aspects of our presentation. Classes related to, for example, the high-level layout of your site are spread across many HTML tags and perhaps even in separate templates. As we add, remove, and refine utility classes, it becomes hard to get a birds-eye view of all of the CSS that is contributing to our layout. With vanilla CSS, we can put all layout rules in a single file, and see them at a glance. It's a locality of aspects, rather than locality of material.
 
 This approach made it much easier to refine and simplify, to discover bugs, and resulted in a more elegant design. Here's the CSS for the top-level layout of this site:
 

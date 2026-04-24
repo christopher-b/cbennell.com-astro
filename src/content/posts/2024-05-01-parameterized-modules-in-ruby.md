@@ -7,7 +7,6 @@ status: "published"
 heroImage: "../../assets/images/glitch1.jpeg"
 tags:
   - "ruby"
-  - "#Import 2026-02-12 04:57"
 ---
 
 Reading the documentation for some [dry-rb](https://dry-rb.org/) projects, like [dry-](https://dry-rb.org/gems/dry-container/0.11/)[auto_inject](https://dry-rb.org/gems/dry-auto_inject/1.0/), I was intrigued by the syntax in examples like this:
@@ -169,7 +168,7 @@ speed = Measure[10, 'mPh']
 s1 = Set[1, 2] #=> #
 ```
 
-It seems to have become a convention for calling a *default* method on a class, much like `.call`. I *want* to like this approach, because it’s clean and concise, but I think it’s abusing the semantics of the array access syntax.
+It seems to have become a convention for calling a _default_ method on a class, much like `.call`. I _want_ to like this approach, because it’s clean and concise, but I think it’s abusing the semantics of the array access syntax.
 
 ## Use Case
 
