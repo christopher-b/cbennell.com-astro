@@ -1,46 +1,25 @@
 ---
 import { getPublishedPosts } from '@lib/posts';
+import { deriveTags } from '@lib/tags';
 import DefaultLayout from '@layouts/Default.astro';
 import Card from '@components/Card.astro';
 
-/*
 export async function getStaticPaths() {
-  // const allPosts = Object.values(import.meta.glob('../posts/*.md', { eager: true }));
   const allPosts = await getPublishedPosts();
-  const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-  console.log(uniqueTags)
-
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
+  return deriveTags(allPosts).map((tag) => {
     return {
-      params: { tag },
-      props: { posts: filteredPosts },
-    };
-  });
-}
-*/
-export async function getStaticPaths() {
-  // const allPosts = Object.values(import.meta.glob('../posts/*.md', { eager: true }));
-  const allPosts = await getPublishedPosts();
-    console.log(allPosts[0].data)
-
-  const uniqueTags = [...new Set(allPosts.map((post: any) => post.data.tags).flat())];
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: any) => post.data.tags.includes(tag));
-    return {
-      params: { tag },
-      props: { posts: filteredPosts },
+      params: { tag: tag.slug },
+      props: { posts: tag.posts, tagName: tag.name },
     };
   });
 }
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+const { posts, tagName } = Astro.props;
 ---
 
 <DefaultLayout>
   <article-list>
-    <h1>{posts.length} posts tagged &ldquo;{tag}&rdquo;</h1>
+    <h1>{posts.length} posts tagged &ldquo;{tagName}&rdquo;</h1>
     {
       posts.map((post) => (
         <Card post={post} />
