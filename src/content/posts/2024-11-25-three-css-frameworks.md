@@ -19,8 +19,13 @@ As part of my recent migration from WordPress to Bridgetown, I investigated thre
 At one end of the spectrum, [Open Props](https://open-props.style/) relies entirely on CSS custom properties. There are no class name hooks provided, so you're using the framework entirely within your CSS files. You do, of course, need to add class names to your HTML elements so you have some hooks on which to hang the custom. An example:
 
 ```html
-.card { border-radius: var(--radius-2); padding: var(--size-fluid-3);
-box-shadow: var(--shadow-2); } ...
+.card {
+  border-radius: var(--radius-2);
+  padding: var(--size-fluid-3);
+  box-shadow: var(--shadow-2);
+}
+
+<div class="card">...</div>
 ```
 
 OpenProps can be used with no build process using the CDN, or you can use tools like PostCSS to import only the properties you actually need.

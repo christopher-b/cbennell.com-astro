@@ -18,8 +18,8 @@ This article explains how to set up your Rails application as an _LTI Tool Provi
 
 _This is part 2 of a 3-part series on LTI Launches. Check out the other articles:_
 
-- What’s in a Canvas LMS LTI 1.3 JWT?
-- Building an LTI DeepLinking Response in Rails
+- [What’s in a Canvas LMS LTI 1.3 JWT?](/posts/whats-in-a-canvas-lms-lti-1-3-jwt/)
+- [Building an LTI DeepLinking Response in Rails](/posts/building-an-lti-deeplinking-response-in-rails/)
 
 ---
 
@@ -39,7 +39,7 @@ LTI 1.3 uses OpenID Connect ([OIDC) third-party flow](https://www.imsglobal.org/
 
 1. The LMS initiates a POST request to the Tool Provider, to the URL that we provide when we configure the tool in the LMS.
 2. The Tool Provider redirects the browser back to the LMS, to an "authorization endpoint" provided by the LMS. This request requires a crafted URL parameter derived from the original request.
-3. The LMS redirects back to the Tool Provider, to a different URL specified in the LMS tool config. This request contains an "ID token" and a signed JWT containing a LTI payload.
+3. The LMS redirects back to the Tool Provider, to a different URL specified in the LMS tool config. This request contains an "ID token" and a signed JWT containing a [LTI payload](/posts/whats-in-a-canvas-lms-lti-1-3-jwt/).
 4. Finally, the Tool Provider can validate the response, authenticate the user and direct the browser to the appropriate resource.
 
 Let's dig in.
@@ -50,14 +50,20 @@ Your application will need to respond to a number of requests specific to the OI
 
 ```ruby
 post "/oidc/initiation", to: "oidc#initiation"
-
+---
+config/routes.rb
+---
 ```
 
-config/routes.rb
-
-````ruby
-class OIDCController
+```ruby
+class OIDCController < ApplicationController
+  def initiation
+  end
+end
+---
 app/controllers/oidc_controller.rb
+---
+```
 
 The URL for this route is what we will supply in our Developer Key "OpenID Connect Initiation URL" field.
 
@@ -109,10 +115,10 @@ class OIDCAuthorizationUri
     }
   end
 end
-
-````
-
+---
 app/models/oidc_authorization_url.rb
+---
+```
 
 Let's also add some inflections for all of the initialisms we're working with.
 
@@ -121,10 +127,10 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "LTI"
   inflect.acronym "OIDC"
 end
-
-```
-
+---
 config/initializers/inflections.rb
+---
+```
 
 In the OIDC controller, we can create a new `OIDCAuthorizationURL` and redirect to it. We create a few session variables to help validate the response in the next step.
 
@@ -152,10 +158,10 @@ def auth_uri
     redirect_host: request.hostname
   )
 end
-
-```
-
+---
 app/controllers/oidc_controller.rb
+---
+```
 
 ## Step 3: Authentication Response
 
@@ -167,16 +173,23 @@ Let's add the route and controller action to handle the authentication response.
 
 ```ruby
 post "/oidc/callback", to: "oidc#callback"
-
+---
+config/routes.rb
+---
 ```
 
-config/routes.rb
-
-````ruby
-class OIDCController
+```ruby
+class OIDCController < ApplicationController
+  # ...
+  def callback
+  end
+end
+---
 app/controllers/oidc_controller.rb
+---
+```
 
-The response contains a signed JWT in the `id_token` param. This JWT is [chock full of details](https://cbennell.ocaduwebspace.ca/67/whats-in-a-canvas-lms-lti-1-3-jwt/) about the LTI Launch, the launch context (like the course in which the tool was embedded) the user and LMS platform itself.
+The response contains a signed JWT in the `id_token` param. This JWT is [chock full of details](/posts/whats-in-a-canvas-lms-lti-1-3-jwt/) about the LTI Launch, the launch context (like the course in which the tool was embedded) the user and LMS platform itself.
 
 ## Step 4: Validate & Authenticate
 
@@ -223,10 +236,10 @@ class JWTContent
     }
   end
 end
-
-````
-
+---
 app/models/jwt_content.rb
+---
+```
 
 ### Verify the Token
 
@@ -249,20 +262,58 @@ class JWTContent
     end
   end
 end
-
-```
-
+---
 app/model/jwt_content.rb
+---
+```
 
 We store and check nonces to prevent replay attacks; here's a simple model to save them in the database. If your application has a cache store, use it instead.
 
-````ruby
-class OauthNonce
+```ruby
+class OauthNonce < ApplicationRecord
+  validates :nonce, :consumer_key, presence: true
+
+  def self.validate(nonce, consumer_key)
+    record = find_by(nonce: nonce, consumer_key: consumer_key)
+
+    if record.present?
+      # If the nonce already exists, it is invalid
+      false
+    else
+      # Otherwise, create a new record with the nonce and consumer key
+      create(nonce: nonce, consumer_key: consumer_key, created_at: Time.now)
+      purge_old_records
+
+      true
+    end
+  end
+
+  def self.purge_old_records
+    where("created_at < ?", 5.minutes.ago).delete_all
+  end
+end
+---
 app/models/oauth_nonce.rb
+---
+```
 
 ```ruby
-class CreateOauthNonces
+class CreateOauthNonces < ActiveRecord::Migration[7.0]
+  def change
+    create_table :oauth_nonces do |t|
+      t.string :nonce, null: false
+      t.string :consumer_key, null: false
+      t.datetime :created_at, null: false
+    end
+
+    add_index :oauth_nonces, [:nonce, :consumer_key], unique: true
+    add_index :oauth_nonces, :created_at
+  end
+end
+---
 db/migrate/...create_oauth_nonces.rb
+---
+```
 
 ### Dealing With the Token Contents
 
@@ -279,7 +330,7 @@ Calling `JWTContent.new(jwt).id_token` will return an hash-like containing field
   ...
 }
 
-````
+```
 
 We can wrap this content another model to encapsulate the access details.
 
@@ -319,10 +370,10 @@ module LTI
     end
   end
 end
-
-```
-
+---
 app/models/lti/launch_context.rb
+---
+```
 
 (This example assumes [custom variables](https://canvas.instructure.com/doc/api/file.tools_variable_substitutions.html) configured on the Developer Key)
 
@@ -338,15 +389,62 @@ There's a lot of info in the JWT. You can extract it all into the LaunchContext 
 
 In our controller, we can use the LaunchContext to get the info we actually want. We create a JWTContent instance to decode the JWT passed from the LMS, and pass _that_ into the LTI::LaunchContext.
 
-````ruby
-class OIDCController
+```ruby
+class OIDCController < ApplicationController
+  def callback
+  end
+
+  private
+
+  def jwt_content
+    @jwt_content ||= begin
+      content = JWTContent.new(params[:id_token])
+      content.verify(
+        lms_platform_id: config[:lms_platform_id],
+        tool_client_id: config[:tool_client_id],
+        nonce: session[:nonce]
+      )
+      content.id_token
+    end
+  end
+
+  def lti_launch_context
+    @lti_launch_context ||= LTI::LaunchContext.build(jwt_content)
+  end
+
+  def cleanup_session_params
+    session.delete :state
+    session.delete :nonce
+  end
+
+  def config
+    # Provide these details
+    {
+      lms_platform_id: "", #https://canvas.instructure.com
+      tool_client_id: "" # This value is specific to your account and the tool being launched
+    }
+  end
+end
+---
 app/controllers/oidc_controller.rb
+---
+```
 
 Now all that's left is to authenticate the user and redirect.
 
 ```ruby
-class OIDCController
+class OIDCController < ApplicationController
+  def callback
+    user_id = lti_launch_context.user_sis_id
+    # maybe log in the user
+    cleanup_session_params
+    redirect_to lti_launch_context.target_link_uri
+  end
+end
+---
 app/controllers/oidc_controller.rb
+---
+```
 
 ## Conclusion
 
@@ -354,11 +452,10 @@ There you have it, a complete LTI 1.3 Launch. Stay tuned for a future articles, 
 
 ## References
 
-- Canvas LMS API Docs - Manually Configuring LTI Advantage Tools
-- 1EdTech LTI Security Framework
-- 1EdTech LTI Core
-- openid_connect gem
-- json-jwt gem
-- Verifying Signed JWTs (JWS) with Ruby
-- OneLogin OpenId Connect Ruby Samples
-````
+- [Canvas LMS API Docs - Manually Configuring LTI Advantage Tools](https://canvas.instructure.com/doc/api/file.lti_dev_key_config.html)
+- [1EdTech LTI Security Framework](https://www.imsglobal.org/spec/security/v1p0/#openid_connect_launch_flow)
+- [1EdTech LTI Core](https://www.imsglobal.org/spec/lti/v1p3/#message-type-claim)
+- [openid_connect gem](https://github.com/nov/openid_connect)
+- [json-jwt gem](https://github.com/nov/json-jwt/wiki/JWT#json-web-token-jwt)
+- [Verifying Signed JWTs (JWS) with Ruby](https://www.jvt.me/posts/2020/06/15/verify-jwt-ruby/)
+- [OneLogin OpenId Connect Ruby Samples](https://github.com/onelogin/onelogin-oidc-ruby/tree/master)

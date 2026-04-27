@@ -25,8 +25,14 @@ To use this technique in [Phlex](https://www.phlex.fun/) components, we need to 
 If we're going to be doing authorization checks in many different views, it makes sense to include these in our `Base` view.
 
 ```ruby
-class Views::Base
-ApplicationControllerp/views/base.rb
+class Views::Base < Components::Base
+  include Pundit::Authorization
+  def pundit_user = Current.user # or another reference to the authenticated user
+end
+
+---
+app/views/base.rb
+---
 ```
 
 Now our components have access to all of the Pundit [helper methods](https://github.com/varvet/pundit/blob/main/lib/pundit/authorization.rb), so we can do something like this in our Phlex view:

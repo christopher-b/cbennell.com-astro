@@ -15,29 +15,41 @@ I recently tried to optimize a slow page, and bumped into some limitations in th
 The models I'm working with are `Courses`, `Users`, and `Enrollments`. There is a many-to-many relationship between `Courses` and `Users`, with `Enrollments` acting as the join model. Enrollments also have a `role`, indicating if the user is a student, a teacher, etc. I’ve implemented some unconventional `has_many` relationships, which I may explain in a future post.
 
 ```ruby
-class Course  { teacher.eager_load(:user) }, class_name: "Enrollment"
+class Course < ApplicationRecord
+  has_many :enrollments
+  has_many :teacher_enrollments, -> { teacher.eager_load(:user) }, class_name: "Enrollment"
   has_many :student_enrollments, -> { student.eager_load(:user) }, class_name: "Enrollment"
   has_many :users, through: :enrollments, inverse_of: :courses
   has_many :teachers, through: :teacher_enrollments, source: :user
   has_many :students, through: :student_enrollments, source: :user
 end
-
+---
+app/models/course.rb
+---
 ```
 
-app/models/course.rb
-
-````ruby
-class User
+```ruby
+class User < ApplicationRecord
+  has_many :enrollments
+  has_many :courses, through: :enrollments, inverse_of: :user
+end
+---
 app/models/user.rb
+---
+```
 
 ```ruby
-class Enrollment  { where(role: "teacher") }
+class Enrollment < ApplicationRecord
+  belongs_to :course
+  belongs_to :user
+
+  scope :teacher, -> { where(role: "teacher") }
   scope :student, -> { where(role: "student") }
 end
-
-````
-
+---
 app/models/enrollment.rb
+---
+```
 
 ## The Problem
 
@@ -83,7 +95,7 @@ Both of these queries resulted in very large result sets, with duplicated course
 
 Since the Rails built-in solution didn’t work, I turned to SQL. The SQL I needed ended up looking like this:
 
-```ruby
+```sql
 SELECT
   courses.*,
   (
@@ -116,10 +128,10 @@ class Course  { teacher.eager_load(:user) }, class_name: "Enrollment"
   }
   scope :has_students, -> { with_student_count.where("student_count > ?", 0) }
 end
-
-```
-
+---
 app/models/course.rb
+---
+```
 
 Now we can use the `has_students` scope in our original query:
 

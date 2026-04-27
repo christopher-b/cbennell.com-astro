@@ -26,17 +26,17 @@ A key constraint here is the execution context of the Kamal hooks in the CI envi
 To address these requirements, I put the actual reporting command into a Kamal [alias](https://kamal-deploy.org/docs/configuration/aliases/). Alias tasks run on the application containers. I can then call that alias from the post-deploy hook. This runs the task on one of the just-deployed production containers (the jobs container, in this case) which has access to the Rails credentials to load the API key. It also introduces a bit of abstraction around the parameters supplied to the deploy command.
 
 ```yaml
-
----
+...
 aliases:
   record-deploy: >
     app exec --reuse --roles=job 'bundle exec honeybadger deploy
-    --user ""
-    --repository ""
-    --revision ""'
-```
-
+    --user "<%= ENV["DEPLOY_USER"] %>"
+    --repository "<%= ENV["DEPLOY_REPO"] %>"
+    --revision "<%= ENV["DEPLOY_REVISION"] %>"'
+---
 config/deploy.yml
+---
+```
 
 ```bash
 #!/bin/sh
@@ -44,10 +44,10 @@ DEPLOY_USER=$CI_COMMIT_AUTHOR \
   DEPLOY_REPO=$CI_PROJECT_URL \
   DEPLOY_REVISION=$CI_COMMIT_SHA \
   kamal record-deploy
-
-```
-
+---
 .kamal/hooks/post-deploy
+---
+```
 
 Since Kamal configuration doesn’t support direct environment variable expansion, we use ERB interpolation to extract the values from environment variables. These variables are then populated using values supplied by GitLab CI.
 
@@ -56,19 +56,20 @@ Since Kamal configuration doesn’t support direct environment variable expansio
 Antoher issue I encountered during this migration was the use of Rails credentials in my Honeybadger config, which included this line:
 
 ```yaml
-api_key:
-```
-
+api_key: <%= Rails.application.credentials.honeybadger.api_key %>
+---
 config/honeybadger.yml
+---
+```
 
 This caused an error during the application image build, specifically on this line, asset precompilation:
 
-```Dockerfile
+```dockerfile
 SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
-
-```
-
+---
 Dockerfile
+---
+```
 
 Since we aren't setting a valid `SECRET_KEY_BASE`, Rails can't decrypt our credentials, leading to an error when it fails to find our Honeybadger API key.
 
@@ -77,7 +78,8 @@ Since we aren't setting a valid `SECRET_KEY_BASE`, Rails can't decrypt our crede
 The quick and dirty approach is to use Ruby's safe navigation operator (`&.`) to prevent the error. This will set the API key to `nil`, which the Honeybadger gem will not complain about:
 
 ```yaml
-api_key:
-```
-
+api_key: <%= Rails.application&.credentials&.honeybadger&.api_key %>
+---
 config/honeybadger.yml
+---
+```

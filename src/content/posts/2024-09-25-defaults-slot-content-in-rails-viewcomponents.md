@@ -19,18 +19,19 @@ This solution made rendering a spinner icon very concise; I don't need to includ
 Here's the component template.
 
 ```erb
-" role="alert">
+<div class="alert alrt-<%= @type %>" role="alert">
+  <span class="alert-icon">
+    <%= icon %>
+  </span>
 
-
-
-
-
-
-
-
-```
-
+  <div class="alert-content">
+    <%= content %>
+  </div>
+</div>
+---
 app/components/ui/alert.html.erb
+---
+```
 
 And the component class. If the icon slot has not been explicitly filled, we set it to a dynamic default.
 
@@ -68,34 +69,35 @@ module Ui
     end
   end
 end
-
-```
-
+---
 app/components/ui/alert.rb
+---
+```
 
 We can render an alert like so, to have the default icon for the alert variant.
 
 ```erb
-
+<%# Renders the success "check" icon %>
+<%= render Ui::Alert.new(:success) do %>
   Content...
-
+<% end %>`
 ```
 
 Or with a spinner.
 
 ```erb
-
-
+<%= render Ui::Alert.new(:secondary) do |alert| %>
+  <% alert.with_icon_spinner %>
     Content...
-
+<% end %>
 ```
 
 Or with an any icon we like, using the awkwardly named `.with_icon_icon`!
 
 ```erb
-
-
-
+<%= render Ui::Alert.new(:secondary) do |alert| %>
+  <% alert.with_icon_icon("search") %>
+<% end %>
 ```
 
 I love discovering the flexibility and power of ViewComponents. I often feel like I'm just scratching the surface of the capabilities.

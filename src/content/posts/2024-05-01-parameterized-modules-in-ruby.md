@@ -114,7 +114,7 @@ class Test
   include ParameterizedModule["test"]
 end
 
-  puts Test.new.get_item # test
+puts Test.new.get_item # test
 ```
 
 But this comes with its own problem. I can imagine myself doing a global search for “def get_item” to find where this method is defined; this approach breaks that ability. I prefer to have my important methods look like methods. The `item_parameter` method in the previous example is more like plumbing, so we can get away with it there.

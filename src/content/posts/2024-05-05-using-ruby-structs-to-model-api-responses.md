@@ -21,14 +21,12 @@ user[:id]
 
 # Yaa
 user.id
-
 ```
 
 This isn't just for aesthetics. Having the properties be method-like means we can use nice features like the _ampersand and object_ operator.
 
 ```ruby
 users.map(&:id)
-
 ```
 
 Here's the approach.
@@ -55,7 +53,6 @@ user = Api::User.new(
   last_name: "Loblaw"
   email: "bob@loblaw.blaw"
 )
-
 ```
 
 We declare a list of properties from the API response that we're interested in. We use those as the keywords provided to the Struct constructor, so our models will only contain those properties. We use that same list of desired attributes to filter the parameters that are used passed to `#new`, so even if our API returns additional properties, our Struct won't complain about extra keyword arguments when we instantiate them.
@@ -89,7 +86,6 @@ end
 
 user = Api::User.load(99)
 user.sortable_name
-
 ```
 
 If we don't want to filter the properties, and can accept everything the API sends along, we can simplify it.
@@ -107,5 +103,4 @@ module Api
     end
   end
 end
-
 ```

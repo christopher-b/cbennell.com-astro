@@ -14,9 +14,52 @@ I've been exploring [Phlex](https://phlex.fun) recently, and I've been really ha
 
 One such case is a [navigation tabs](https://getbootstrap.com/docs/5.0/components/navs-tabs/) component. Inspired by the [Yielding an Interface](https://www.phlex.fun/components/yielding.html#yielding-an-interface) section of the documentation, I came up with an implementation that looked something like this (simplified for clarity):
 
-````ruby
-class Components::Tabs
+```ruby
+class Components::Tabs < Components::Base
+  def initialize
+    @tabs = []
+  end
+
+  def view_template(&)
+    vanish(&)
+
+    render_tab_wrapper do
+      @tabs.each { |tab| render_tab(tab) }
+    end
+
+    render_content_wrapper do
+      @tabs.each { |tab| render_contents(tab) }
+    end
+  end
+
+  def tab(title, &content)
+    @tabs << {title:, content:}
+  end
+
+  private
+
+  def render_tab_wrapper(&)
+    ul(class: "tabs", &)
+  end
+
+  def render_content_wrapper(&)
+    div(class: "tab-content", &)
+  end
+
+  def render_tab(tab)
+    li(class: "tab-item") do
+      button(class: "tab-link") { tab[:title] }
+    end
+  end
+
+  def render_contents(tab)
+    div(class: "tab-pane") { tab[:content].call(tab) }
+  end
+end
+---
 components/tabs.rb
+---
+```
 
 The `view_template` method yields itself (via Phlex magic) to the caller, and we call `#tab` in the block to add a new tab (including the title and tab body) to the tab list. We then iterate that tab list twice: once to render the tabs and once to render the contents. This component could be used like so:
 
@@ -30,15 +73,20 @@ Components::Tabs.new do |tabs|
     h1 { "Tab 2 Content" }
   end
 end
-
-````
-
+---
 tabs-example.rb
+---
+```
 
 This method worked well, until I needed to include HTML in my tab title. It's awkward to pass HTML as a string to `#tab` (and we would need to use Phlex's `raw` and `safe`), and we're already using the block parameter to capture the tab contents. What I needed was a way to pass in two blocks when calling `#tab`, one for the title and one for the body. Here's what I came up with:
 
-````ruby
-class Components::Tabs  { raise "No title content provided" }
+```ruby ins={2-17, 35-47,61}
+class Components::Tabs < Components::Base
+  class TabData
+    attr_reader :title_content, :body_content
+
+    def initialize
+      @title_content = -> { raise "No title content provided" }
       @body_content = -> { raise "No body content provided" }
     end
 
@@ -69,8 +117,42 @@ class Components::Tabs  { raise "No title content provided" }
 
   def tab(title = nil, &body)
     tab_data = TabData.new
-    @tabs
+    @tabs << tab_data
+
+    if String === title
+      tab_data.title { title }
+      tab_data.body(&body)
+    else
+      yield tab_data
+    end
+
+    tab_data
+  end
+
+  private
+
+  def render_tab_wrapper(&)
+    ul(class: "tabs", &)
+  end
+
+  def render_content_wrapper
+    div(class: "tab-content", &)
+  end
+
+  def render_tab(tab, active)
+    li(class: "tab-item") do
+      button(class: "tab-link") { tab.title_content&.call || "" }
+    end
+  end
+
+  def render_contents(tab, active)
+    div(class: "tab-content") { tab.body_content&.call || "" }
+  end
+end
+---
 components/tabs.rb
+---
+```
 
 The big change here is how the `#tab` method works. There are now two ways to call this method; we can still use the existing interface, where we pass the tab title as a string and the tab body in the block. However, the internal behaviour has changed: we now create an instance of our new `TabData` object, which is basically a container for two blocks (or procs, really). We assign the passed-in body block to the new `tab_data`, create a new block for the title and assign that block to our `tab_data` as well.
 
@@ -97,12 +179,18 @@ Components::Tabs.new do |tabs|
   end
 end
 
-````
+```
 
 Here's the unabridged component, complete with Bootstrap classes and accessibility inclusions.
 
 ````ruby
-class Components::Tabs  { raise "No title content provided" }
+class Components::Tabs < Components::Base
+  class TabData
+    attr_reader :title_content, :body_content
+    attr_accessor :slug
+
+    def initialize
+      @title_content = -> { raise "No title content provided" }
       @body_content = -> { raise "No body content provided" }
     end
 
@@ -163,6 +251,64 @@ class Components::Tabs  { raise "No title content provided" }
   # ```
   def tab(title = nil, &body)
     tab_data = TabData.new
-    @tabs
+    @tabs << tab_data
+
+    tab_data.slug = @slug_seed + "-" + @tabs.size.to_s
+
+    if String === title
+      tab_data.title { title }
+      tab_data.body(&body)
+    else
+      yield tab_data
+    end
+
+    tab_data
+  end
+
+  private
+
+  def render_tab_wrapper
+    ul(class: "nav nav-tabs", role: "tablist") do
+      yield
+    end
+  end
+
+  def render_content_wrapper
+    div(class: "tab-content") do
+      yield
+    end
+  end
+
+  def render_tab(tab, active)
+    li(class: "nav-item", role: "presentation") do
+      button(
+        class: ["nav-link", ("active" if active)],
+        id: "#{tab.slug}-tab",
+        role: "tab",
+        type: "button",
+        aria: {
+          controls: "#{tab.slug}-tab-pane",
+          selected: active.to_s
+        },
+        data: {
+          bs_toggle: "tab",
+          bs_target: "##{tab.slug}-tab-pane"
+        }
+      ) { tab.title_content&.call || "" }
+    end
+  end
+
+  def render_contents(tab, active)
+    div(
+      class: ["tab-pane", "fade", ("show active" if active)],
+      id: "#{tab.slug}-tab-pane",
+      role: "tabpanel",
+      aria: {labelledby: "#{tab.slug}-tab"},
+      tabindex: "0"
+    ) { tab.body_content&.call || "" }
+  end
+end
+---
 components/tabs.rb
+---
 ````

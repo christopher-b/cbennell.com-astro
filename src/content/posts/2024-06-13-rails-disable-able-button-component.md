@@ -22,10 +22,17 @@ If anyone has a better name for this component, please let me know!
 Pretty simple: we render a button in a span, passing along some tag options from the component class.
 
 ```ruby
-
-```
-
+<%=
+  tag.span(**container_options) do
+    tag.button(**button_options) do
+      content
+    end
+  end
+%>
+---
 app/components/ui/disableable_button.html.erb
+---
+```
 
 ## The Component
 
@@ -33,7 +40,25 @@ The component itself has a few things going on.
 
 ```ruby
 module UI
-  class DisableableButton disableable-button#enable" },
+  class DisableableButton < ApplicationComponent
+    attr_reader :button_options, :container_options
+
+    def initialize(
+      disabled: false,
+      disable_events: [],
+      enable_events: [],
+      disabled_tooltip: "",
+      variant: "light",
+      tag_options: {}
+    )
+      container_options = {
+        tabindex: 0,
+        title: disabled_tooltip,
+        class: "d-inline-block",
+        data: {
+          controller: "disableable-button tooltip",
+          action: [
+            enable_events.map { |ev| "#{ev}->disableable-button#enable" },
             enable_events.map { |ev| "#{ev}->tooltip#disable" },
             disable_events.map { |ev| "#{ev}->disableable-button#disable" }
           ].flatten.join(" ")
@@ -53,10 +78,10 @@ module UI
     end
   end
 end
-
-```
-
+---
 app/components/ui/disableable_button.rb
+---
+```
 
 Let's go over the initializer params:
 
@@ -69,16 +94,16 @@ def initialize(
   variant: "light",
   tag_options: {}
 )
-
+---
+app/components/ui/disableable_button.rb
+---
 ```
 
-app/components/ui/disableable_button.rb
-
-- disabled: set the default state of the button.
-- disable_events/enable_events: a list of events that the component will respond to, which control the state of the button.
-- disabled_tooltip: popover text that will appear when hovering over the disabled button. Note that this requires another Stimulus controller ("tooltip") to work.
-- variant: passed along as a CSS class to the button. This allows us to set a default variant that can be overridden if required.
-- tag_options: additional options that can be passed along to the button tag. Allows arbitrary customization of the button tag.
+- `disabled`: set the default state of the button.
+- `disable_events/enable_events`: a list of events that the component will respond to, which control the state of the button.
+- `disabled_tooltip`: popover text that will appear when hovering over the disabled button. Note that this requires another Stimulus controller ("tooltip") to work.
+- `variant`: passed along as a CSS class to the button. This allows us to set a default variant that can be overridden if required.
+- `tag_options`: additional options that can be passed along to the button tag. Allows arbitrary customization of the button tag.
 
 ---
 
@@ -100,10 +125,10 @@ container_options = {
     ].flatten.join(" ")
   }
 }
-
-```
-
+---
 app/components/ui/disableable_button.rb
+---
+```
 
 Finally, we set some parameters for the button itself, include indicating that it is the "target" that will be used by the Stimulus controller.
 
@@ -115,10 +140,10 @@ button_options = {
     "disableable-button-target": "button"
   }
 }
-
-```
-
+---
 app/components/ui/disableable_button.rb
+---
+```
 
 ## Speaking of the Stimulus Controller...
 
@@ -138,20 +163,30 @@ export default class extends Controller {
     this.buttonTarget.setAttribute("disabled", "disabled")
   }
 }
-
-```
-
+---
 app/javascript/controllers/disableable_button_controller.js
+---
+```
 
 ## That's it!
 
 Now we render the button.
 
 ```ruby
-
-
+<%= render UI::DisableableButton.new(
+  variant: "primary",
+  disabled: true,
+  enable_events: ["grades:grades_valid@window"],
+  disable_events: ["grades:grades_invalid@window"],
+  disabled_tooltip: "Please assign grades for all assignments",
+  tag_options: {
+    data: {
+      turbo_frame: "_top",
+    }
+  }) do %>
+  <%= render UI::Icon.new("submit") %>
   Submit Grades
-
+<% end %>
 ```
 
 ## Update: Now With Phlex!
@@ -159,7 +194,33 @@ Now we render the button.
 Since writing this, I've migrated this component to [Phlex](https://www.phlex.fun/)/[Literal](https://literal.fun/). This replaces the ViewComponent and template, but it still requires the Stimulus controller.
 
 ```ruby
-class Ui::DisableableButton disableable-button#enable" },
+class Ui::DisableableButton < Components::Base
+  prop :disabled, _Boolean, default: false, reader: :private
+  prop :disabled_tooltip, String, default: "".freeze, reader: :private
+  prop :disable_events, Array, default: [].freeze, reader: :private
+  prop :enable_events, Array, default: [].freeze, reader: :private
+  prop :tag_options, Hash, default: {}.freeze, reader: :private
+  prop :variant, String, default: "light".freeze, reader: :private
+
+  def view_template
+    span(**container_options) do
+      button(**button_options) do
+        yield
+      end
+    end
+  end
+
+  private
+
+  def container_options
+    {
+      tabindex: 0,
+      title: disabled_tooltip,
+      class: "d-inline-block",
+      data: {
+        controller: "disableable-button tooltip",
+        action: [
+          enable_events.map { |ev| "#{ev}->disableable-button#enable" },
           enable_events.map { |ev| "#{ev}->tooltip#disable" },
           disable_events.map { |ev| "#{ev}->disableable-button#disable" }
         ].flatten.join(" ")
@@ -177,7 +238,7 @@ class Ui::DisableableButton disableable-button#enable" },
     })
   end
 end
-
-```
-
+---
 app/components/ui/disableable_button.rb
+---
+```

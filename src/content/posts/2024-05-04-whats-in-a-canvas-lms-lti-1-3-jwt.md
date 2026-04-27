@@ -16,8 +16,8 @@ As a precursor to more in-depth articles about handling LTI 1.3 launches ([here]
 
 _This is part 1 of a 3-part series on LTI Launches. Check out the other articles:_
 
-- Handling LTI Launches in Rails
-- Building an LTI DeepLinking Response in Rails
+- [Handling LTI Launches in Rails](/posts/handling-lti-launches-in-rails/)
+- [Building an LTI DeepLinking Response in Rails](/posts/building-an-lti-deeplinking-response-in-rails/)
 
 ---
 

@@ -34,10 +34,10 @@ esbuild: frontend bundling complete!
 esbuild: entrypoints processed:
          - index.P6KJZRZR.js: 113B
          - index.DYSKJ26J.css: 3.9KB
-
-```
-
+---
 `esbuild` output
+---
+```
 
 As a result, the CSS doesn’t compile, and the output bundle lacks all Tailwind styles.
 
@@ -50,16 +50,16 @@ One workaround is to touch the file before building. In our Kamal/Docker setup, 
 RUN touch frontend/styles/jit-refresh.css
 RUN npm run esbuild
 ...
-
-```
-
+---
 Dockerfile
+---
+```
 
 Although it's simple, I don't love this solution. It's fixing the problem in the wrong place. We shouldn't be patching over weird quirks of the build process in our packaging layer. A better solution would be in the esbuild process, closer to the intricacies of why the `jit-refresh.css` file exists in the first place. Putting fix in the esbuild process also ensure that it's in place regardless of how we actually trigger esbuild–whether it's directly, via a rake task, or some other method.
 
 Here's how we might accomplish this. Create an esbuild plugin that will touch the file (actually, make a general purpose file-touching plugin, and pass the file name in):
 
-```
+```js
 // We're using CommonJs requires to match Bridgetown defaults
 const fs = require("fs");
 
@@ -87,16 +87,16 @@ const createTouchFilePlugin = (filePaths) => ({
 });
 
 module.exports = createTouchFilePlugin;
-
-```
-
+---
 plugins/touch_file.js
+---
+```
 
 _(All that just to touch a file...)_
 
 We then include that plugin in the esbuild config:
 
-```
+```js
 const touchFilePlugin = require("./plugins/touch_file.js");
 
 const esbuildOptions = {
@@ -105,9 +105,9 @@ const esbuildOptions = {
   ],
   ...
 }
-
-```
-
+---
 esbuild.config.js
+---
+```
 
 This solution allows esbuild to run without errors, and all CSS renders correctly in the final output.

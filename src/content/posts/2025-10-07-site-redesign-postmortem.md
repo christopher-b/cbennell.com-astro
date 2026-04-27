@@ -27,19 +27,33 @@ First, the unwieldy list of classes in the HTML. I think even the most ardent su
 Here's an example of some actual HTML I wrote:
 
 ```html
-
+<div class="flex flex-col xl:flex-row gap-8 md:gap-16 divide-y xl:divide-y-0 xl:divide-x divide-neutral-med dark:divide-neutral-muted">
 ```
 
 Is this any better?
 
 ```html
-
+<div class="
+  flex flex-col xl:flex-row
+  gap-8 md:gap-16
+  divide-y xl:divide-y-0 xl:divide-x
+  divide-neutral-med
+  dark:divide-neutral-muted
+">
 ```
 
 Marginally, perhaps, but still not good. I found myself putting a lot of effort into organizing these classes into something comprehensible. I also really dislike how the indentation looks when tag contents are included:
 
 ```html
-Content
+<div class="
+  flex flex-col xl:flex-row
+  gap-8 md:gap-16
+  divide-y xl:divide-y-0 xl:divide-x
+  divide-neutral-med
+  dark:divide-neutral-muted
+">
+  Content
+</div>
 ```
 
 It's awkward, and it's difficult to parse large amounts of code that follow this shape.
@@ -55,7 +69,37 @@ The immediate benefit of this change was a return to clean HTML, no longer full 
 Here's some actual HTML from this site (slightly streamlined). It may seem simple, but it takes effort to pare the structure down and to avoid elements that are only there to hang styles. I wouldn't have been able to get to this minimalism with the litany of classes that Tailwind requires.
 
 ```html
-... ... # Articles 25 Mar 2025 &bull; 4 min read ## ... ... ... ...
+<body>
+  <header>
+    <masthead aria-labelledby="site-title">
+      ...
+    </masthead>
+    <nav aria-label="Primary">
+      ...
+    </nav>
+  </header>
+  <main>
+    <article-list>
+      <h1>Articles</h1>
+
+      <article card aria-labelledby="post-header-...">
+        <post-meta>
+          <time datetime="2025-03-25"> 25 Mar 2025 </time>
+          &bull;
+          4 min read
+        </post-meta>
+
+        <h2 id="post-header-...">
+          ...
+        </h2>
+        <excerpt>...</excerpt>
+      </article>
+      ...
+    </article-list>
+  </main>
+
+  <footer>...</footer>
+</body>
 ```
 
 ### Locality
@@ -64,7 +108,7 @@ One of the unexpected benefits of moving from Tailwind back to plain CSS was imp
 
 This approach made it much easier to refine and simplify, to discover bugs, and resulted in a more elegant design. Here's the CSS for the top-level layout of this site:
 
-```CSS
+```css
 body {
   @mixin sidebar-parent 2rem;
   padding: 2vw;
@@ -90,9 +134,10 @@ article-list {
     padding-bottom: var(--s2);
   }
 }
-```
-
+---
 layout.css
+---
+```
 
 (I'm using [PostCSS Mixins](https://github.com/postcss/postcss-mixins), my one concession to a build step in this project. They are shortcuts for applying techniques from [Every Layout](https://every-layout.dev/))
 

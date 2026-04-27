@@ -25,7 +25,7 @@ Next, I took some basic security measures by requiring SSH key authentication an
 
 The UFW setup involved:
 
-```bash
+```bash frame="none"
 ufw default deny incoming  # Block all incoming traffic by default
 ufw allow OpenSSH          # Allow SSH connections
 ufw allow https            # Allow secure HTTPS traffic
@@ -38,7 +38,7 @@ The server image includes `unattended-upgrades`, but I made a few adjustments to
 
 Quite a few packages needed updates, so I ran my go-to commands:
 
-```bash
+```bash frame="none"
 apt update
 apt upgrade
 apt autoremove
