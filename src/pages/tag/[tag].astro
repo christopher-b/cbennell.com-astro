@@ -1,6 +1,7 @@
 ---
 import { getPublishedPosts } from '@lib/posts';
 import { deriveTags } from '@lib/tags';
+import { SITE_TITLE } from '@src/consts';
 import DefaultLayout from '@layouts/Default.astro';
 import Card from '@components/Card.astro';
 
@@ -15,11 +16,12 @@ export async function getStaticPaths() {
 }
 
 const { posts, tagName } = Astro.props;
+const title = `${posts.length} posts tagged “${tagName}”`;
 ---
 
-<DefaultLayout>
+<DefaultLayout title={`${title} — ${SITE_TITLE}`} description={title}>
   <article-list>
-    <h1>{posts.length} posts tagged &ldquo;{tagName}&rdquo;</h1>
+    <h1>{title}</h1>
     {
       posts.map((post) => (
         <Card post={post} />

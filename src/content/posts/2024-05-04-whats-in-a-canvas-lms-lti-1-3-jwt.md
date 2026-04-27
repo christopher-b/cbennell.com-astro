@@ -26,7 +26,7 @@ A JSON Web Token is a chunk of JSON that has been **signed** and **encrypted**. 
 
 The examples I'm using here are from Canvas LMS, with a request configured to expect an `LTIDeepLinkingResponse`. Other types of requests will add additional details to the JWT. A Canvas LTI JWT looks somthing like this:
 
-```JSON
+```json
 {
   "https://purl.imsglobal.org/spec/lti/claim/message_type"=>"LtiDeepLinkingRequest",
   "https://purl.imsglobal.org/spec/lti/claim/version"=>"1.3.0",
@@ -55,7 +55,7 @@ At a high level, the JWT contains a few different types of information:
 
 The decoded JWT contains a JSON hash of values. A few of the low-level items have three-letter keys. The rest are the LTI _claims_, which include a long URL ending in the claim name. For example:
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/version": "1.3.0"
 
 ```
@@ -68,7 +68,7 @@ These are mostly the _registered claims_, meaning that they are part of the JWT 
 
 ### aud: Audience
 
-```JSON
+```json
 "aud": "199990000000000101"
 
 ```
@@ -77,7 +77,7 @@ This represents the intended recipient of the message. In Canvas, this is a comb
 
 ### azp: Authorized Party
 
-```JSON
+```json
 "azp": "199990000000000101"
 
 ```
@@ -86,7 +86,7 @@ Defined by OIDC Core. Contains the OAuth 2.0 Client ID of Tool Provide which is.
 
 ### exp: Expiry Time
 
-```JSON
+```json
 "exp": "1714746467"
 
 ```
@@ -95,7 +95,7 @@ A deadline for processing the request. The request is not to be accepted if the 
 
 ### iat: Issued At
 
-```JSON
+```json
 "iat": "1714742687"
 
 ```
@@ -104,7 +104,7 @@ The time the request was created.
 
 ### iss: Issuer
 
-```JSON
+```json
 "iss": "https://canvas.instructure.com"
 
 ```
@@ -113,7 +113,7 @@ A URL representing the party that initiated the request.
 
 ### nonce
 
-```JSON
+```json
 "nonce": "0c369dfd1d51c28dc4dd47d3ba164823"
 
 ```
@@ -122,7 +122,7 @@ This string is originally passed from the tool to the LMS in the previous step o
 
 ### sub: Subject
 
-```JSON
+```json
 "sub": "dfaf09e2-a019-4fb4-f027-ea8d1fced23e"
 
 ```
@@ -133,7 +133,7 @@ A representation of the user making the request. Canvas asks us to use the [Name
 
 ### deployment_id
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/deployment_id": "409:ae84...806"
 
 ```
@@ -142,7 +142,7 @@ This is the an ID for the unique placement of this tool launch. Each instance of
 
 ### message_type
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/message_type": "LtiDeepLinkingRequest",
 
 ```
@@ -153,14 +153,14 @@ This is the platform's declaration of the intended workflow of the launch. This 
 
 Which version of the LTI protocol we're working with.
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/version": "1.3.0",
 
 ```
 
 ### target_link_uri
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/target_link_uri": "https://your.tool/path",
 
 ```
@@ -171,7 +171,7 @@ This value is configured on your Developer Key, in the "Target Link URI" field.
 
 This hash contains details of the course or similar context from which the tool was launched. It includes the couse code (label), name (title) an "ID" field, but I'm not sure how to turn this ID into something useful. Again, we can fall back to custom field defined in the Developer Key to get a useful course ID.
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/context": {
   "id": "62499430cba135337460ba1a02e5a3fbfce45ed5",
   "label": "Art History 101",
@@ -191,7 +191,7 @@ I can't find any information about `validation_context`, and all the examples in
 
 Details about how to content will be displayed, including the dimensions of type of viewport.
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/launch_presentation": {
   "document_target": "iframe",
   "return_url": "https://lms.com/courses/1234/external_content/success/external_tool_dialog",
@@ -207,7 +207,7 @@ There's also a `return_url`, which according to the spec is where "the message r
 
 ### tool_platform
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/tool_platform": {
   "guid": "rWra7zZVp2j2FRxdjDWR0gI25jKCkiBq5WdbPwOD:canvas-lms",
   "name": "Your University Name",
@@ -223,7 +223,7 @@ This is were we find information about this LMS (or whatever system is launching
 
 ### roles
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/roles": [
   "http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator",
   "http://purl.imsglobal.org/vocab/lis/v2/institution/person#Instructor",
@@ -237,7 +237,7 @@ A list of roles the use has in the LMS, as defined in the [LIS vocabulary](https
 
 ### lti11_legacy_user_id
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti/claim/lti11_legacy_user_id": "00ac...3c1f",
 
 ```
@@ -252,7 +252,7 @@ Likewise, the `lti1p1` claim includes the `legacy_user_id`, along with the tool'
 
 In your Developer Key config, you can request [custom fields](https://canvas.instructure.com/doc/api/file.tools_variable_substitutions.html) be included in the response. This is the easiest way to get Canvas to pass along contextual SIS IDs, which allows you to skip the "Names and Roles" API. There are many fields you can include, it's worth taking a look to discover ways to enhance your tool.
 
-```JSON
+```json
 # Developer Key Config:
 user_sis_id=$Canvas.user.sisSourceId
 course_sis_id=$Canvas.course.sisSourceId
@@ -269,7 +269,7 @@ course_sis_id=$Canvas.course.sisSourceId
 
 ## deep_linking_settings
 
-```JSON
+```json
 "https://purl.imsglobal.org/spec/lti-dl/claim/deep_linking_settings": {
   "deep_link_return_url": "https://your.tool./courses/1234/deep_linking_response?data=eyJ0...igU",
   "accept_types": ["link", "file", "html", "ltiResourceLink", "image"],

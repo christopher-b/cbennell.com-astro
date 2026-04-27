@@ -20,7 +20,6 @@ export default defineConfig({
       },
       plugins: [pluginCodeCaption()],
       themes: ["andromeeda", "catppuccin-latte"],
-      extractFileNameFromCode: false,
     }),
     mdx(),
     sitemap(),

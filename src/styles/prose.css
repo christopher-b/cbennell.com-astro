@@ -3,4 +3,18 @@ content {
     margin-block: var(--s1);
     --gap: var(--s2);
   }
+
+  blockquote {
+    font-style: italic;
+    padding-left: var(--s1);
+    border-inline-start: 2px solid var(--color-accent-med-light);
+
+    @mixin dark-mode {
+      border-inline-start: 2px solid var(--color-accent-light);
+    }
+  }
+
+  hr {
+    margin-block: var(--s3);
+  }
 }

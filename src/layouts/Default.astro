@@ -1,15 +1,28 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import type { ImageMetadata } from 'astro';
 import BaseHead from '@components/BaseHead.astro';
 import Footer from '@components/Footer.astro';
 import Masthead from '@components/Masthead.astro';
 import Navigation from '@components/Navigation.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: ImageMetadata;
+}
+
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<BaseHead title={title} description={description} image={image} />
 	</head>
 	<body>
     <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -25,4 +38,3 @@ import Navigation from '@components/Navigation.astro';
 		<Footer />
 	</body>
 </html>
-
