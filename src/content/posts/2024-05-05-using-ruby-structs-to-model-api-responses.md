@@ -4,6 +4,7 @@ pubDate: "2024-05-05T13:59:00.000Z"
 description: "Here's a technique I use to model API responses in a simple class. This provides nice ergonomics with minimal boilerplate."
 slug: "using-ruby-structs-to-model-api-responses"
 status: "published"
+section: "post"
 heroImage: "vhs-oil.jpeg"
 tags:
   - "api"

@@ -4,6 +4,7 @@ pubDate: "2024-05-05T13:26:00.000Z"
 description: "Learn how to set up your Rails application as an LTI Tool Provider, to handle LTI 1.3 launches from an LMS, including the OCID workflow, user authentication and what to do with the information you get from the LMS."
 slug: "handling-lti-launches-in-rails"
 status: "published"
+section: "post"
 heroImage: "vhs-1.jpeg"
 tags:
   - "application design"

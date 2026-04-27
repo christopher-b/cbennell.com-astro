@@ -1,15 +1,11 @@
 ---
 title: "PinDrops: an experiment in ATProto / Svelte / Maps"
 pubDate: "2025-11-07T20:56:45.000Z"
-description: "An ATProto application. Add pins to your map. "
+description: "An ATProto application. Add pins to your map."
 slug: "pindrops-an-experiment-in-atproto-svelte-maps-wip"
-status: "draft"
-tags:
-  - "lab"
-  - "#Import 2026-02-12 04:57"
+status: "published"
+section: "lab"
 ---
-
-## November 7th, 2025
 
 I built [PinDrops](https://pindrops.app/) ([repo](https://github.com/christopher-b/pindrops)) as an excuse to learn AT Protocol and Svelte/Kit.
 

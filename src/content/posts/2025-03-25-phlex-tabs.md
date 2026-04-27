@@ -4,6 +4,7 @@ pubDate: "2025-03-25T16:20:00.000Z"
 description: "Here's how I created a flexible interface for a Phlex component that captures multiple blocks, while maintaining backward compatibility with the simpler string-based API."
 slug: "phlex-tabs"
 status: "published"
+section: "post"
 heroImage: "grain-blue2-1.jpeg"
 tags:
   - "phlex"

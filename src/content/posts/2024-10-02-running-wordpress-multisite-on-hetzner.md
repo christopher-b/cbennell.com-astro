@@ -4,6 +4,7 @@ pubDate: "2024-10-02T04:00:00.000Z"
 description: "After many years with Ionos, I finally made the switch to self-hosting on Hetzner. In this post, I walk through spinning up a VPS with WordPress preinstalled, hardening it with SSH keys and UFW, and configuring WordPress Multisite to serve multiple domains."
 slug: "running-wordpress-multisite-on-hetzner"
 status: "published"
+section: "post"
 heroImage: "grain-grn-yellow.jpeg"
 tags:
   - "diy"

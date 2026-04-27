@@ -4,6 +4,7 @@ pubDate: "2024-09-25T15:30:00.000Z"
 description: "Ever wished your ViewComponent slots could have dynamic defaults? In this post, I show how I built an Alert component that automatically picks the right icon for its type, but can easily swap in a spinner or any custom icon with a single line of code."
 slug: "defaults-slot-content-in-rails-viewcomponents"
 status: "published"
+section: "post"
 heroImage: "holo-1.jpeg"
 tags:
   - "rails"

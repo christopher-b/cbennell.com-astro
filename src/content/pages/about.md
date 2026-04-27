@@ -1,8 +1,7 @@
 ---
 title: "About Christopher"
-pubDate: "2025-10-02T18:23:09.000Z"
-description: ""
 slug: "about"
+description: "About Me"
 status: "published"
 heroImage: "beach.jpg"
 ---

@@ -4,6 +4,7 @@ pubDate: "2025-10-07T04:26:46.000Z"
 description: "After a redesign of this site, I share some thoughts on the unexpected benefits and surprising lessons of vanilla CSS. "
 slug: "site-redesign-postmortem"
 status: "published"
+section: "post"
 heroImage: "glitch-purple.jpeg"
 tags:
   - "css"

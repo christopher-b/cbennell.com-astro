@@ -4,6 +4,7 @@ pubDate: "2026-02-04T17:38:38.000Z"
 description: "Every Layout is a collection of composable CSS layout patterns. Here's how I've extracted them into a reusable pattern library I can use in any project."
 slug: "every-layout-mixins"
 status: "published"
+section: "post"
 heroImage: "AdobeStock_1884449252.jpeg"
 tags:
   - "css"

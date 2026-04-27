@@ -1,13 +1,8 @@
 ---
 title: "Now"
-pubDate: "2025-10-07T18:29:43.000Z"
-description: ""
 slug: "now"
+description: ""
 status: "draft"
-tags:
-  - "now"
-  - "#Import 2026-02-12 04:57"
-draft: true
 ---
 
 This is a [now page](https://nownownow.com/about).

@@ -4,6 +4,7 @@ pubDate: "2024-10-27T15:44:00.000Z"
 description: "Deploying a Bridgetown site with Kamal? Watch out for a sneaky Tailwind bug. When the jit-refresh.css file is gitignored, fresh checkouts fail silently during the build process, stripping all your Tailwind styles. Here's how to fix it with a simple esbuild plugin instead of patching your Dockerfile."
 slug: "bridgetown-tailwind-kamal"
 status: "published"
+section: "post"
 heroImage: "grain-bw.jpeg"
 tags:
   - "bridgetown"

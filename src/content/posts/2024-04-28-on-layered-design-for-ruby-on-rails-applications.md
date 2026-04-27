@@ -4,6 +4,7 @@ pubDate: "2024-04-28T02:11:00.000Z"
 description: "From DDD-inspired architecture to patterns like query objects and service layers, Dementyev’s book explores how Rails apps can evolve stronger abstractions over time. Ideal for developers who want to move beyond basics and design with clarity and intent."
 slug: "on-layered-design-for-ruby-on-rails-applications"
 status: "published"
+section: "post"
 heroImage: "mylar-1.jpeg"
 tags:
   - "books"

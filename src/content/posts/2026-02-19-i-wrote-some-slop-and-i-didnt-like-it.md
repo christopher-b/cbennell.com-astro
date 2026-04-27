@@ -4,7 +4,7 @@ pubDate: "2026-02-19T01:29:00.000Z"
 description: ""
 slug: "i-wrote-some-slop-and-i-didnt-like-it"
 status: "draft"
-draft: true
+section: "post"
 tags:
   - draft
 ---

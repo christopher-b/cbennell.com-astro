@@ -4,6 +4,7 @@ pubDate: "2024-09-12T15:25:00.000Z"
 description: "Filtering complex associations in Rails can get tricky: built-in methods like where.associated don’t always provide efficient results. Here’s how I used a SQL subquery inside Rails scopes to make a slow page fast again."
 slug: "filtering-by-association-count-in-complex-models-in-rails"
 status: "published"
+section: "post"
 heroImage: "holo-2.jpeg"
 tags:
   - "rails"

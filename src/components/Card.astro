@@ -11,7 +11,7 @@ const { post } = Astro.props;
 <article card class="post" aria-labelledby={`post-header-${post.id}`}>
 	<PostMeta post={post} />
   <h2 id={`post-header-${post.id}`}>
-		<a href={`/posts/${post.id}/`}>
+		<a href={`/posts/${post.data.slug}/`}>
 			{post.data.title}
     </a>
   </h2>

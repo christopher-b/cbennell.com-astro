@@ -8,9 +8,11 @@ const posts = defineCollection({
     z.object({
       title: z.string(),
       description: z.string(),
+      slug: z.string(),
       pubDate: z.coerce.date(),
       heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),
+      section: z.enum(["post", "lab"]),
       tags: z.array(z.string()).optional(),
     }),
 });
@@ -20,6 +22,7 @@ const pages = defineCollection({
   schema: () =>
     z.object({
       title: z.string(),
+      slug: z.string(),
       description: z.string(),
       heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),

@@ -4,6 +4,7 @@ pubDate: "2024-10-26T04:00:00.000Z"
 description: "I've used WordPress for many years. It no longer suits my needs as well as it used to, so I've been investigating alternatives, inlcuding migrating this site to Bridgetown, a Ruby-based static site generator. And the switch feels principled and liberating."
 slug: "migrating-from-wordpress-to-bridgetown"
 status: "published"
+section: "post"
 heroImage: "grain-color-1.jpeg"
 tags:
   - "bridgetown"

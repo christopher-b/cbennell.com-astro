@@ -4,6 +4,7 @@ pubDate: "2024-05-01T04:31:00.000Z"
 description: "Ruby lets you use `[]` for more than arrays—and that opens the door to clever tricks like parameterized modules."
 slug: "parameterized-modules-in-ruby"
 status: "published"
+section: "post"
 heroImage: "glitch1.jpeg"
 tags:
   - "ruby"
