@@ -1,0 +1,6 @@
+content {
+  img {
+    margin-block: var(--s1);
+    --gap: var(--s2);
+  }
+}

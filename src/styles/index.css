@@ -4,7 +4,8 @@
 @import "./layout.css";
 @import "./type.css";
 @import "./utils.css";
-@import "./prism.css";
+@import "./code.css";
+@import "./prose.css";
 @import "./ghost/content.css";
 /* @import "./ghost/members.css"; */
 
