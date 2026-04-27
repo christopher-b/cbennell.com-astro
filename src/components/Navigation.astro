@@ -8,23 +8,6 @@ import Icon from '@components/Icon.astro';
 		<li><HeaderLink href="/">Articles</HeaderLink></li>
 		<li><HeaderLink href="/lab">Lab</HeaderLink></li>
 		<li><HeaderLink href="/about">Me</HeaderLink></li>
-		<li aria-label="Additional navigation">
-			<menu>
-				<li>
-					<search>
-						<button aria-label="Search site">
-							<Icon name="search" />
-						</button>
-					</search>
-				</li>
-
-				<li>
-					<a href="/rss.xml" title="Subscribe to RSS feed" aria-label="Subscribe to RSS feed (opens in new tab)" target="_blank" rel="noopener">
-						<Icon name="rss" />
-					</a>
-				</li>
-			</menu>
-		</li>
 	</ul>
 
 	<menu class="nav-extras" aria-label="Social links">
@@ -48,5 +31,10 @@ import Icon from '@components/Icon.astro';
 				<Icon name="email" />
 			</a>
 		</li>
+    <li>
+      <a href="/rss.xml" title="Subscribe to RSS feed" aria-label="Subscribe to RSS feed (opens in new tab)" target="_blank" rel="noopener">
+        <Icon name="rss" />
+      </a>
+    </li>
 	</menu>
  </nav>
