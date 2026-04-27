@@ -1,63 +1,118 @@
-# Astro Starter Kit: Blog
+# cbennell.com
 
-```sh
-yarn create astro@latest -- --template blog
-```
+Personal site for Christopher Bennell, built with Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Todo
 
-Features:
+- Investigate local copy of Inter font, without losing features like slashed zeros
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+## Requirements
 
-## 🚀 Project Structure
+- Node.js `>=22.12.0`
+- Yarn
 
-Inside of your Astro project, you'll see the following folders and files:
+## Commands
+
+Run commands from the project root.
+
+| Command            | Description                              |
+| ------------------ | ---------------------------------------- |
+| `yarn install`     | Install dependencies                     |
+| `yarn dev`         | Start the dev server at `localhost:4321` |
+| `yarn build`       | Build the production site to `dist/`     |
+| `yarn preview`     | Preview the production build locally     |
+| `yarn astro sync`  | Generate Astro content/types metadata    |
+| `yarn astro check` | Typecheck Astro files and content        |
+
+There is no separate lint or test script. Use `yarn astro check` for verification.
+
+## Project Structure
 
 ```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+src/
+├── assets/          Static source assets, including cover images and fonts
+├── components/      Reusable Astro components
+├── content/         Markdown and MDX content collections
+├── layouts/         Page layout shells
+├── lib/             Shared data and utility functions
+├── pages/           File-based routes
+├── plugins/         Markdown/remark plugins
+└── styles/          Global CSS, tokens, utilities, prose, and code styles
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Content
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Content collections are defined in `src/content.config.ts`.
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+### Posts
 
-Any static assets, like images, can be placed in the `public/` directory.
+Posts live in `src/content/posts/` and support Markdown or MDX.
 
-## 🧞 Commands
+Required frontmatter:
 
-All commands are run from the root of the project, from a terminal:
+- `title`
+- `description`
+- `slug`
+- `pubDate`
+- `section`: `post` or `lab`
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `yarn install`             | Installs dependencies                            |
-| `yarn dev`             | Starts local dev server at `localhost:4321`      |
-| `yarn build`           | Build your production site to `./dist/`          |
-| `yarn preview`         | Preview your build locally, before deploying     |
-| `yarn astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `yarn astro -- --help` | Get help using the Astro CLI                     |
+Optional frontmatter:
 
-## 👀 Want to learn more?
+- `heroImage`
+- `status`: `draft` or `published`
+- `tags`
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Only posts with `status: published` are returned by the post helpers in `src/lib/posts.ts`.
 
-## Credit
+### Pages
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+Standalone content pages live in `src/content/pages/`.
+
+Required frontmatter:
+
+- `title`
+- `slug`
+- `description`
+
+Optional frontmatter:
+
+- `heroImage`
+- `status`: `draft` or `published`
+
+## Images
+
+Cover images live in `src/assets/covers/`.
+
+Use the `heroImage` frontmatter field to reference a cover image by filename. Shared cover-image lookup is handled by `src/lib/images.ts`.
+
+## Styling
+
+Global styles are imported through `src/styles/index.css`.
+
+Important files:
+
+- `src/styles/tokens.css` for design tokens
+- `src/styles/mixins.css` for PostCSS mixins
+- `src/styles/layout.css` for page-level layout
+- `src/styles/type.css` for typography
+- `src/styles/prose.css` for rendered Markdown content
+- `src/styles/code.css` for code block styling
+
+The project uses `postcss-mixins`; check `src/styles/mixins.css` before adding new raw layout CSS.
+
+## Markdown Features
+
+- Markdown and MDX are supported.
+- `src/plugins/reading-time.mjs` injects reading-time metadata into rendered content.
+- `astro-expressive-code` handles code block rendering.
+- Code block captions are provided through the expressive-code caption plugin.
+
+## Deployment
+
+The configured production site URL is `https://cbennell.com` in `astro.config.mjs`.
+
+Build output is written to `dist/` with:
+
+```sh
+yarn build
+```
