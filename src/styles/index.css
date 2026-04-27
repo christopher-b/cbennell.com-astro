@@ -222,14 +222,3 @@ article footer {
     }
   }
 }
-
-#ghost-portal-root,
-#sodo-search-root {
-  margin-block-start: 0;
-}
-
-/* .ghost-display { */
-/*   @mixin dark-mode { */
-/*     background-color: #0f0f0f; */
-/*   } */
-/* } */

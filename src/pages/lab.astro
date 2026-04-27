@@ -11,7 +11,7 @@ const description = 'Projects, experiments, ideas in progress.';
 <DefaultLayout title={`Lab — ${SITE_TITLE}`} description={description}>
   <article-list>
     <h1>Lab</h1>
-    <p>{description}</p>
+    <p class="deck">{description}</p>
     {
       posts.map((post) => (
         <Card post={post} />

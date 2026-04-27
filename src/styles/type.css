@@ -58,3 +58,7 @@ article > content {
     font-size: var(--font-xs);
   }
 }
+
+.deck {
+  font-size: var(--font-md);
+}
