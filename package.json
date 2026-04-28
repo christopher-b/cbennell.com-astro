@@ -26,7 +26,7 @@
     "postcss-mixins": "^12.1.2",
     "reading-time": "^1.5.0",
     "sharp": "^0.34.3",
-    "typescript": "^6.0.3"
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
     "wrangler": "^4.85.0"
