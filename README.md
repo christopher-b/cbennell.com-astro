@@ -1,6 +1,6 @@
 # cbennell.com
 
-Personal site for Christopher Bennell, built with Astro.
+Personal site for cbennell.com, built with Astro.
 
 ## Todo
 
