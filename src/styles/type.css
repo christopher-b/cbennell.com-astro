@@ -62,3 +62,8 @@ article > content {
 .deck {
   font-size: var(--font-md);
 }
+
+p code {
+  /* Inline code samples. Our fixed-width font is larger, so we reduce it. */
+  font-size: 0.9em;
+}

@@ -188,11 +188,6 @@ article > content {
   p {
     max-inline-size: var(--measure);
   }
-
-  p > code {
-    /* Inline code samples */
-    font-size: var(--font-sm);
-  }
 }
 
 article footer {
