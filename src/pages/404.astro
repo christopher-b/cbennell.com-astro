@@ -4,13 +4,13 @@ import DefaultLayout from '@layouts/Default.astro';
 import Card from '@components/Card.astro';
 
 const posts = (await getPublishedPostsBySection('post')).slice(0, 3);
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
 ---
 
 <DefaultLayout title="404 — Christopher Bennell">
   <article-list>
     <h1>404 Not Found</h1>
-    <p class="deck">There's no page at “<code>/{pathname}</code>”. Here are a few recent articles.</p>
+    <p class="deck">There's no page at “<code id="requested-path"></code>”. Here are a few recent articles.</p>
+
     {
       posts.map((post) => (
         <Card post={post} />
@@ -18,3 +18,8 @@ const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
     }
   </article-list>
 </DefaultLayout>
+
+<script is:inline>
+  // We don't use Astro.url.pathname because of the the way Cloudflare does 404 redirects
+  document.getElementById("requested-path").textContent = window.location.pathname;
+</script>
