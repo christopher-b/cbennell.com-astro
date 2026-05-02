@@ -2,10 +2,6 @@
 
 Personal site for cbennell.com, built with Astro.
 
-## Todo
-
-- Investigate local copy of Inter font, without losing features like slashed zeros
-
 ## Requirements
 
 - Node.js `>=22.12.0`

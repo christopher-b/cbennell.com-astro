@@ -1,6 +1,7 @@
 ---
 title: "Vapour: A Ghost CMS Theme for Vite & TailwindCSS"
 pubDate: "2025-09-03T18:22:00.000Z"
+heroImage: "haider-zalghout-KRj0jz2uH3w-unsplash.jpg"
 description: "Vapour is a Ghost CMS theme with support for Vite & TailwindCSS. I breakdown the obstacles for using these technologies together, and how I built a solution."
 slug: "vapour-a-ghost-cms-theme-for-vite-tailwindcss"
 status: "published"
