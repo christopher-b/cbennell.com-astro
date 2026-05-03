@@ -1,19 +1,20 @@
 ---
+import { getCoverImage } from '@lib/images';
 import DefaultLayout from '@layouts/Default.astro';
 import HeroImage from '@components/HeroImage.astro';
 
-const description = 'Current Puzzmo streaks, loaded from ATProto.';
+const description = 'My Puzzmo streaks, loaded live with ATProto.';
+const heroImage = await getCoverImage("puzzmo.png");
 ---
 
-<DefaultLayout title="Puzzmo Stats" description={description}>
+<DefaultLayout title="Puzzmo Stats" description={description} image={heroImage}>
   <article-list>
     <h1>Puzzmo Stats</h1>
     <p class="deck">{description}</p>
     <HeroImage filename="puzzmo.png" alt="Puzzmo logo" />
     <p>
-      <a href="https://www.puzzmo.com/" target="_blank">Puzzmo</a> is my favourite place for puzzles. They've started publishing streak stats on ATproto, which I think is great.
-      You can follow their efforts <a href="https://blog.puzzmo.com/posts/2026/03/02/atproto/" target="_blank">here</a>.
-      Here are my stats.
+      <a href="https://www.puzzmo.com/" target="_blank">Puzzmo</a> is my favourite place for puzzles.
+      They <a href="https://blog.puzzmo.com/posts/2026/03/02/atproto/" target="_blank">publish streak stats</a> on ATproto. I'm eager to see some interesting integrations built with this data, but for now, here are my stats.
     </p>
 
     <section class="puzzmo-stats" aria-live="polite" aria-busy="true" data-puzzmo-stats>
@@ -31,7 +32,7 @@ const description = 'Current Puzzmo streaks, loaded from ATProto.';
           <img />
         </h2>
         <p class="last-played">
-          Last played
+          Last game
           <time data-updated></time>
         </p>
       </header>
@@ -148,15 +149,9 @@ const description = 'Current Puzzmo streaks, loaded from ATProto.';
 </script>
 
 <style>
-  .puzzmo-stats {
-    /* display: grid; */
-    /* gap: var(--s1); */
-  }
+  .puzzmo-stats { }
 
   .puzzmo-games {
-    /* display: grid; */
-    /* gap: var(--s1); */
-    /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); */
     list-style: none;
     padding: 0;
   }
@@ -164,28 +159,20 @@ const description = 'Current Puzzmo streaks, loaded from ATProto.';
   .puzzmo-games article header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 0;
+    margin-bottom: var(--s1);
   }
 
   .last-played {
     font-size: var(--font-xs);
-    /* align-self: flex-end; */
-    /* justify-self: flex-end */
-
   }
 
   .puzzmo-games li:not(:last-child) {
-    /* display: grid; */
-    /* gap: var(--s0); */
-    /* block-size: 100%; */
     border-bottom: thin solid var(--color-border);
     padding-bottom: var(--s0);
     margin-bottom: var(--s0);
   }
 
-  .puzzmo-games h2 {
-    /* margin: 0; */
-  }
+  .puzzmo-games h2 { }
 
   .puzzmo-games h2 img {
     display: inline;
@@ -194,26 +181,20 @@ const description = 'Current Puzzmo streaks, loaded from ATProto.';
   .puzzmo-games dl {
     display: flex;
     justify-content: space-between;
-    /* gap: var(--s-1); */
-    /* margin: 0; */
   }
 
   .puzzmo-games dl div {
     display: flex;
     flex-direction: column-reverse;
     text-align: center;
-    /* justify-content: space-between; */
-    /* gap: var(--s0); */
   }
 
-  .puzzmo-games dt {
-    /* color: var(--text-color-muted); */
-  }
+  .puzzmo-games dt { }
 
   .puzzmo-games dd {
-    /* margin: 0; */
-    /* font-family: var(--font-display); */
     font-size: var(--font-xl);
+    font-family: var(--font-display);
+    line-height: 0.9;
   }
 
 </style>
