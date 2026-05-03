@@ -6,7 +6,7 @@ import Card from '@components/Card.astro';
 const posts = (await getPublishedPostsBySection('post')).slice(0, 3);
 ---
 
-<DefaultLayout title="404 — Christopher Bennell">
+<DefaultLayout title="404">
   <article-list>
     <h1>404 Not Found</h1>
     <p class="deck">There's no page at “<code id="requested-path"></code>”. Here are a few recent articles.</p>

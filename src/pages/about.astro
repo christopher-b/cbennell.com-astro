@@ -1,6 +1,5 @@
 ---
 import { render } from 'astro:content';
-import { SITE_TITLE } from '@src/consts';
 import { getPageBySlug } from '@lib/pages';
 import DefaultLayout from '@layouts/Default.astro';
 import HeroImage from '@components/HeroImage.astro';
@@ -10,7 +9,7 @@ const { Content } = await render(page);
 const { title, description, heroImage } = page.data;
 ---
 
-<DefaultLayout title={`${title} — ${SITE_TITLE}`} description={description}>
+<DefaultLayout title={title} description={description}>
   <article class="post">
     <header>
       <h1>{title}</h1>

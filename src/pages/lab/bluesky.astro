@@ -1,11 +1,10 @@
 ---
-import { SITE_TITLE } from '@src/consts';
 import DefaultLayout from '@layouts/Default.astro';
 
 const description = 'My latest Bluesky posts.';
 ---
 
-<DefaultLayout title={`Bluesky — ${SITE_TITLE}`} description={description}>
+<DefaultLayout title="Bluesky" description={description}>
   <article-list>
     <h1>Bluesky</h1>
     <p class="deck">{description}</p>
