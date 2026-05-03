@@ -1,0 +1,134 @@
+---
+import { SITE_TITLE } from '@src/consts';
+import DefaultLayout from '@layouts/Default.astro';
+
+const description = 'My latest Bluesky posts.';
+---
+
+<DefaultLayout title={`Bluesky — ${SITE_TITLE}`} description={description}>
+  <article-list>
+    <h1>Bluesky</h1>
+    <p class="deck">{description}</p>
+
+    <section class="bsky-feed" aria-live="polite" aria-busy="true" data-bsky-feed>
+      <p data-bsky-status>Loading latest posts...</p>
+      <ol class="bsky-posts" data-bsky-posts></ol>
+    </section>
+  </article-list>
+</DefaultLayout>
+
+<template data-bsky-template>
+  <li>
+    <article>
+      <a>
+        <post-meta>
+          <time></time>
+        </post-meta>
+        <p></p>
+      </a>
+    </article>
+  </li>
+</template>
+
+<script>
+  import { createBskyPostLink, listPostRecords } from '@lib/atproto';
+
+  const handle = 'cbennell.com';
+  const postLimit = 10;
+  const status = document.querySelector<HTMLParagraphElement>('[data-bsky-status]');
+  const feed = document.querySelector('[data-bsky-feed]');
+  const list = document.querySelector('[data-bsky-posts]');
+  const template = document.querySelector<HTMLTemplateElement>('[data-bsky-template]');
+
+  const formatDate = (createdAt: string) => {
+    return new Date(createdAt).toLocaleDateString('en-GB', {
+			day: '2-digit',
+			month: 'short',
+			year: 'numeric'
+		})
+  };
+
+  const loadPosts = async () => {
+    if (!status || !feed || !list || !template) {
+      return;
+    }
+
+    try {
+      const { did, records } = await listPostRecords({ handle, limit: 50 });
+      const posts = records
+        .filter(({ value }) => value.text && value.createdAt && !value.reply)
+        .sort((a, b) => {
+          return new Date(b.value.createdAt ?? '').getTime() - new Date(a.value.createdAt ?? '').getTime();
+        })
+        .slice(0, postLimit);
+
+      feed.setAttribute('aria-busy', 'false');
+      status.hidden = posts.length > 0;
+      status.textContent = posts.length ? '' : 'No recent posts found.';
+
+      for (const { uri, value } of posts) {
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const link = clone.querySelector('a')!;
+        const p = clone.querySelector('p')!;
+        const time = clone.querySelector('time')!;
+        const createdAt = value.createdAt ?? '';
+
+        link.href = createBskyPostLink({ fallbackHandle: handle, did, uri });
+        link.rel = 'noopener nofollow';
+        link.target = '_blank';
+
+        p.textContent = value.text ?? '';
+
+        time.dateTime = createdAt;
+        time.textContent = formatDate(createdAt);
+
+        list.append(clone);
+      }
+    }
+    catch (error) {
+      feed.setAttribute('aria-busy', 'false');
+      status.textContent = error instanceof Error ? error.message : 'Could not load Bluesky posts.';
+    }
+  };
+
+  loadPosts();
+</script>
+
+<style>
+  .bsky-feed {
+    display: grid;
+    gap: var(--s1);
+  }
+
+  .bsky-posts {
+    display: grid;
+    gap: var(--s2);
+
+    list-style: none;
+    padding: 0;
+  }
+
+  .bsky-posts li:not(:last-child) {
+    padding-block-end: var(--s2);
+    border-block-end: thin solid var(--color-border);
+  }
+
+  .bsky-posts article {
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .bsky-posts article a {
+    text-decoration: none;
+  }
+
+  .bsky-posts article p {
+    max-inline-size: var(--measure);
+    white-space: pre-wrap;
+    margin: 0;
+  }
+
+  .bsky-posts post-meta {
+    display: block;
+  }
+</style>
