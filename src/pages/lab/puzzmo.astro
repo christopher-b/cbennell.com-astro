@@ -1,0 +1,219 @@
+---
+import DefaultLayout from '@layouts/Default.astro';
+import HeroImage from '@components/HeroImage.astro';
+
+const description = 'Current Puzzmo streaks, loaded from ATProto.';
+---
+
+<DefaultLayout title="Puzzmo Stats" description={description}>
+  <article-list>
+    <h1>Puzzmo Stats</h1>
+    <p class="deck">{description}</p>
+    <HeroImage filename="puzzmo.png" alt="Puzzmo logo" />
+    <p>
+      <a href="https://www.puzzmo.com/" target="_blank">Puzzmo</a> is my favourite place for puzzles. They've started publishing streak stats on ATproto, which I think is great.
+      You can follow their efforts <a href="https://blog.puzzmo.com/posts/2026/03/02/atproto/" target="_blank">here</a>.
+      Here are my stats.
+    </p>
+
+    <section class="puzzmo-stats" aria-live="polite" aria-busy="true" data-puzzmo-stats>
+      <p data-puzzmo-status>Loading Puzzmo stats...</p>
+      <ul class="puzzmo-games" data-puzzmo-games></ol>
+    </section>
+  </article-list>
+</DefaultLayout>
+
+<template data-puzzmo-template>
+  <li>
+    <article>
+      <header>
+        <h2>
+          <img />
+        </h2>
+        <p class="last-played">
+          Last played
+          <time data-updated></time>
+        </p>
+      </header>
+      <dl>
+        <div>
+          <dt>Streak</dt>
+          <dd data-current></dd>
+        </div>
+        <div>
+          <dt>Highest Streak</dt>
+          <dd data-max></dd>
+        </div>
+        <div>
+          <dt>Games Played</dt>
+          <dd data-total></dd>
+        </div>
+      </dl>
+    </article>
+  </li>
+</template>
+
+<script>
+  import { listRecords, resolveDid, resolvePds, type AtprotoRecord } from '@lib/atproto';
+
+  type PuzzmoStreakRecord = AtprotoRecord & {
+    current?: number;
+    gameDisplayName?: string;
+    gameSlug?: string;
+    lastUpdated?: string;
+    max?: number;
+    syncedAt?: string;
+    teamSlug?: string;
+    total?: number;
+  };
+
+  const handle = 'cbennell.com';
+  const collection = 'com.puzzmo.streak';
+  const recordLimit = 50;
+  const stats = document.querySelector('[data-puzzmo-stats]');
+  const status = document.querySelector<HTMLParagraphElement>('[data-puzzmo-status]');
+  const list = document.querySelector('[data-puzzmo-games]');
+  const template = document.querySelector<HTMLTemplateElement>('[data-puzzmo-template]');
+
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+  };
+
+  const formatNumber = (value: number | undefined) => {
+    return value?.toLocaleString('en-GB') ?? '0';
+  };
+
+  const getRecordKey = (uri: string) => {
+    return uri.split('/').at(-1) ?? '';
+  };
+
+  const loadStats = async () => {
+    if (!status || !stats || !list || !template) {
+      return;
+    }
+
+    try {
+      const did = await resolveDid(handle);
+      const pds = await resolvePds(did);
+      const records = await listRecords<PuzzmoStreakRecord>({
+        collection,
+        limit: recordLimit,
+        repo: did,
+        serviceEndpoint: pds,
+      });
+      const streaks = records
+        .filter(({ value }) => value.teamSlug === 'puzzmo' && value.gameSlug)
+        .sort((a, b) => {
+          return (b.value.total ?? 0) - (a.value.total ?? 0)
+            || (b.value.max ?? 0) - (a.value.max ?? 0)
+            || getRecordKey(a.uri).localeCompare(getRecordKey(b.uri));
+        });
+
+      stats.setAttribute('aria-busy', 'false');
+      status.hidden = streaks.length > 0;
+      status.textContent = streaks.length ? '' : 'No Puzzmo streak records found.';
+
+      for (const { uri, value } of streaks) {
+        const clone = template.content.cloneNode(true) as DocumentFragment;
+        const title = clone.querySelector('h2')!;
+        const img = clone.querySelector('img')!;
+        const current = clone.querySelector('[data-current]')!;
+        const max = clone.querySelector('[data-max]')!;
+        const total = clone.querySelector('[data-total]')!;
+        const updated = clone.querySelector<HTMLTimeElement>('[data-updated]')!;
+        const updatedAt = value.lastUpdated ?? value.syncedAt ?? '';
+
+        title.append(value.gameDisplayName ?? getRecordKey(uri));
+        img.src = `https://api.puzzmo.com/gameIcon?slug=${value.gameSlug}&fg=ECECEC&bg=141620&size=28`
+        current.textContent = formatNumber(value.current);
+        max.textContent = formatNumber(value.max);
+        total.textContent = formatNumber(value.total);
+        updated.dateTime = updatedAt;
+        updated.textContent = updatedAt ? formatDate(updatedAt) : 'Unknown';
+
+        list.append(clone);
+      }
+    }
+    catch (error) {
+      stats.setAttribute('aria-busy', 'false');
+      status.textContent = error instanceof Error ? error.message : 'Could not load Puzzmo stats.';
+    }
+  };
+
+  loadStats();
+</script>
+
+<style>
+  .puzzmo-stats {
+    /* display: grid; */
+    /* gap: var(--s1); */
+  }
+
+  .puzzmo-games {
+    /* display: grid; */
+    /* gap: var(--s1); */
+    /* grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); */
+    list-style: none;
+    padding: 0;
+  }
+
+  .puzzmo-games article header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+  .last-played {
+    font-size: var(--font-xs);
+    /* align-self: flex-end; */
+    /* justify-self: flex-end */
+
+  }
+
+  .puzzmo-games li:not(:last-child) {
+    /* display: grid; */
+    /* gap: var(--s0); */
+    /* block-size: 100%; */
+    border-bottom: thin solid var(--color-border);
+    padding-bottom: var(--s0);
+    margin-bottom: var(--s0);
+  }
+
+  .puzzmo-games h2 {
+    /* margin: 0; */
+  }
+
+  .puzzmo-games h2 img {
+    display: inline;
+  }
+
+  .puzzmo-games dl {
+    display: flex;
+    justify-content: space-between;
+    /* gap: var(--s-1); */
+    /* margin: 0; */
+  }
+
+  .puzzmo-games dl div {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+    /* justify-content: space-between; */
+    /* gap: var(--s0); */
+  }
+
+  .puzzmo-games dt {
+    /* color: var(--text-color-muted); */
+  }
+
+  .puzzmo-games dd {
+    /* margin: 0; */
+    /* font-family: var(--font-display); */
+    font-size: var(--font-xl);
+  }
+
+</style>

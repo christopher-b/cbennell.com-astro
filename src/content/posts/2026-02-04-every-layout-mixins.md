@@ -5,7 +5,7 @@ description: "Every Layout is a collection of composable CSS layout patterns. He
 slug: "every-layout-mixins"
 status: "published"
 section: "post"
-heroImage: "AdobeStock_1884449252.jpeg"
+heroImage: "vert1.jpeg"
 tags:
   - "css"
   - "frontend"

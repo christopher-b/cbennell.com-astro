@@ -1,6 +1,5 @@
 ---
 import { render } from 'astro:content';
-import { SITE_TITLE } from '@src/consts';
 import { getCoverImage } from '@lib/images';
 import { getPublishedPosts } from '@lib/posts';
 
@@ -12,7 +11,7 @@ import HeroImage from '@components/HeroImage.astro';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
-	return posts.map((post) => ({
+	return posts.filter((post) => !post.data.link).map((post) => ({
 		params: { slug: post.id },
 		props: post,
 	}));
@@ -25,7 +24,7 @@ const heroImageSrc = await getCoverImage(heroImage);
 ---
 
 <DefaultLayout
-  title={`${title} — ${SITE_TITLE}`}
+  title={title}
   description={description ?? ''}
   image={heroImageSrc}
 >

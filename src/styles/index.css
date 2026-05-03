@@ -178,6 +178,7 @@ article excerpt {
 
 article picture[feature] {
   @mixin frame 2.35 / 1;
+  margin-block-start: var(--s2);
 }
 
 article > content {

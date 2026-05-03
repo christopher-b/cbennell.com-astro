@@ -1,6 +1,7 @@
 ---
 title: "PinDrops: an experiment in ATProto / Svelte / Maps"
 pubDate: "2025-11-07T20:56:45.000Z"
+heroImage: "pindrops.png"
 description: "An ATProto application. Add pins to your map."
 slug: "pindrops-an-experiment-in-atproto-svelte-maps-wip"
 status: "published"

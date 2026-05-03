@@ -4,14 +4,16 @@ interface Props {
 }
 import type { CollectionEntry } from 'astro:content';
 import PostMeta from '@components/PostMeta.astro';
+import { getPostUrl } from '@lib/posts';
 
 const { post } = Astro.props;
+const url = getPostUrl(post);
 ---
 
 <article card class="post" aria-labelledby={`post-header-${post.id}`}>
 	<PostMeta post={post} />
   <h2 id={`post-header-${post.id}`}>
-		<a href={`/posts/${post.data.slug}/`}>
+		<a href={url}>
 			{post.data.title}
     </a>
   </h2>

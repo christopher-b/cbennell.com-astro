@@ -1,6 +1,5 @@
 ---
 import { getPublishedPostsBySection } from '@lib/posts';
-import { SITE_TITLE } from '@src/consts';
 import DefaultLayout from '@layouts/Default.astro';
 import Card from '@components/Card.astro';
 
@@ -8,7 +7,7 @@ const posts = await getPublishedPostsBySection('lab');
 const description = 'Projects, experiments, ideas in progress.';
 ---
 
-<DefaultLayout title={`Lab — ${SITE_TITLE}`} description={description}>
+<DefaultLayout title="Lab" description={description}>
   <article-list>
     <h1>Lab</h1>
     <p class="deck">{description}</p>
