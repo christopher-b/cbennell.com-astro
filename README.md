@@ -2,6 +2,10 @@
 
 Personal site for cbennell.com, built with Astro.
 
+## Todo
+
+- Cleanup usage of image filenames / image objects in layout, HeroImage, etc.
+
 ## Requirements
 
 - Node.js `>=22.12.0`
