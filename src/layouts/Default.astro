@@ -1,6 +1,6 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
-import type { ImageMetadata } from 'astro';
+import type { CoverImage } from '@lib/images';
 import BaseHead from '@components/BaseHead.astro';
 import Footer from '@components/Footer.astro';
 import Masthead from '@components/Masthead.astro';
@@ -9,7 +9,7 @@ import Navigation from '@components/Navigation.astro';
 interface Props {
   title?: string;
   description?: string;
-  image?: ImageMetadata;
+  image?: CoverImage;
 }
 
 const {

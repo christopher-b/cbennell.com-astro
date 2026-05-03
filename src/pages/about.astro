@@ -1,19 +1,21 @@
 ---
 import { render } from 'astro:content';
 import { getPageBySlug } from '@lib/pages';
+import { getCoverImage } from '@lib/images';
 import DefaultLayout from '@layouts/Default.astro';
 import HeroImage from '@components/HeroImage.astro';
 
 const page = await getPageBySlug('about');
 const { Content } = await render(page);
 const { title, description, heroImage } = page.data;
+const coverImage = await getCoverImage(heroImage, title);
 ---
 
-<DefaultLayout title={title} description={description}>
+<DefaultLayout title={title} description={description} image={coverImage}>
   <article class="post">
     <header>
       <h1>{title}</h1>
-      <HeroImage filename={heroImage} />
+      <HeroImage image={coverImage} />
     </header>
 
     <content>

@@ -20,20 +20,20 @@ export async function getStaticPaths() {
 const post = Astro.props;
 const { Content } = await render(post);
 const { title, description, heroImage, tags, section } = post.data;
-const heroImageSrc = await getCoverImage(heroImage);
+const coverImage = await getCoverImage(heroImage, title);
 ---
 
 <DefaultLayout
   title={title}
   description={description ?? ''}
-  image={heroImageSrc}
+  image={coverImage}
 >
   <article class="post">
     <header>
       <h1>{title}</h1>
       <PostMeta post={post} />
       {tags && <TagList tags={tags} /> }
-      <HeroImage filename={heroImage} />
+      <HeroImage image={coverImage} />
     </header>
 
     <content>
