@@ -12,7 +12,7 @@ import HeroImage from '@components/HeroImage.astro';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
-	return posts.map((post) => ({
+	return posts.filter((post) => !post.data.link).map((post) => ({
 		params: { slug: post.id },
 		props: post,
 	}));

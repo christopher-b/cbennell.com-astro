@@ -16,3 +16,7 @@ export async function getPublishedPostsBySection(section: "post" | "lab") {
     )
   ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 }
+
+export function getPostUrl(post: CollectionEntry<"posts">): string {
+  return post.data.link ?? `/posts/${post.id}/`;
+}

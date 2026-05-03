@@ -1,5 +1,5 @@
 ---
-import { getPublishedPostsBySection } from '@lib/posts';
+import { getPostUrl, getPublishedPostsBySection } from '@lib/posts';
 import Icon from '@components/Icon.astro';
 
 const posts = await getPublishedPostsBySection('post');
@@ -21,7 +21,7 @@ const nextPost = currentPostIndex > 0
           {previousPost && (
             <Icon name="arrow-left" />
             <span>Previous:</span>
-            <a href={`/posts/${previousPost.id}/`} rel="prev">
+            <a href={getPostUrl(previousPost)} rel="prev">
               {previousPost.data.title}
             </a>
           )}
@@ -29,7 +29,7 @@ const nextPost = currentPostIndex > 0
         <li>
           {nextPost && (
             <span>Next:</span>
-            <a href={`/posts/${nextPost.id}/`} rel="next">
+            <a href={getPostUrl(nextPost)} rel="next">
               {nextPost.data.title}
             </a>
             <Icon name="arrow-right" />
