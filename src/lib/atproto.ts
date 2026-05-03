@@ -8,19 +8,21 @@ type DidDocument = {
   }>;
 };
 
-export type AtprotoPostRecord = {
+export type AtprotoRecord = Record<string, unknown>;
+
+export type AtprotoPostRecord = AtprotoRecord & {
   text?: string;
   createdAt?: string;
   reply?: unknown;
 };
 
-export type AtprotoListRecord = {
+export type AtprotoListRecord<TRecord extends AtprotoRecord = AtprotoRecord> = {
   uri: string;
-  value: AtprotoPostRecord;
+  value: TRecord;
 };
 
-type ListRecordsResponse = {
-  records?: AtprotoListRecord[];
+type ListRecordsResponse<TRecord extends AtprotoRecord> = {
+  records?: AtprotoListRecord<TRecord>[];
 };
 
 export async function resolveDid(handle: string): Promise<string> {
@@ -74,7 +76,7 @@ export async function resolvePds(did: string): Promise<string> {
   return pdsService.serviceEndpoint;
 }
 
-export async function listRecords({
+export async function listRecords<TRecord extends AtprotoRecord = AtprotoRecord>({
   collection,
   limit,
   repo,
@@ -84,7 +86,7 @@ export async function listRecords({
   limit: number;
   repo: string;
   serviceEndpoint: string;
-}): Promise<AtprotoListRecord[]> {
+}): Promise<AtprotoListRecord<TRecord>[]> {
   const response = await fetch(
     `${serviceEndpoint}/xrpc/com.atproto.repo.listRecords?repo=${encodeURIComponent(repo)}&collection=${encodeURIComponent(collection)}&limit=${limit}`,
   );
@@ -93,7 +95,7 @@ export async function listRecords({
     throw new Error('Could not load records from the PDS.');
   }
 
-  const body = (await response.json()) as ListRecordsResponse;
+  const body = (await response.json()) as ListRecordsResponse<TRecord>;
   return body.records ?? [];
 }
 
@@ -103,10 +105,10 @@ export async function listPostRecords({
 }: {
   handle: string;
   limit?: number;
-}): Promise<{ did: string; records: AtprotoListRecord[] }> {
+}): Promise<{ did: string; records: AtprotoListRecord<AtprotoPostRecord>[] }> {
   const did = await resolveDid(handle);
   const pds = await resolvePds(did);
-  const records = await listRecords({
+  const records = await listRecords<AtprotoPostRecord>({
     collection: 'app.bsky.feed.post',
     limit,
     repo: did,
