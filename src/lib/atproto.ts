@@ -99,6 +99,27 @@ export async function listRecords<TRecord extends AtprotoRecord = AtprotoRecord>
   return body.records ?? [];
 }
 
+export async function listRecordsForHandle<TRecord extends AtprotoRecord = AtprotoRecord>({
+  collection,
+  handle,
+  limit = 50,
+}: {
+  collection: string;
+  handle: string;
+  limit?: number;
+}): Promise<{ did: string; records: AtprotoListRecord<TRecord>[] }> {
+  const did = await resolveDid(handle);
+  const pds = await resolvePds(did);
+  const records = await listRecords<TRecord>({
+    collection,
+    limit,
+    repo: did,
+    serviceEndpoint: pds,
+  });
+
+  return { did, records };
+}
+
 export async function listPostRecords({
   handle,
   limit = 50,
@@ -134,4 +155,8 @@ export function createBskyPostLink({
   }
 
   return `https://bsky.app/profile/${did}/post/${recordKey}`;
+}
+
+export function getAtprotoRecordKey(uri: string): string {
+  return uri.split('/').at(-1) ?? '';
 }

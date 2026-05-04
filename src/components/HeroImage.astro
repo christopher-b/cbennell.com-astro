@@ -1,18 +1,16 @@
 ---
 import { Image } from 'astro:assets';
-import { getCoverImage } from '@lib/images';
+import type { CoverImage } from '@lib/images';
 
 interface Props {
-  filename: string | undefined;
-  alt?: string;
+  image: CoverImage | undefined;
 }
 
-const { filename, alt = '' } = Astro.props;
-const src = await getCoverImage(filename);
+const { image } = Astro.props;
 ---
 
-{src && (
+{image && (
   <picture feature>
-    <Image src={src} alt={alt} />
+    <Image src={image.src} alt={image.alt} />
   </picture>
 )}

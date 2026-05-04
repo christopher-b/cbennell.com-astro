@@ -30,7 +30,7 @@ const description = 'My latest Bluesky posts.';
 </template>
 
 <script>
-  import { createBskyPostLink, listPostRecords } from '@lib/atproto';
+  import { createBskyPostLink, listRecordsForHandle, type AtprotoPostRecord } from '@lib/atproto';
 
   const handle = 'cbennell.com';
   const postLimit = 10;
@@ -53,7 +53,11 @@ const description = 'My latest Bluesky posts.';
     }
 
     try {
-      const { did, records } = await listPostRecords({ handle, limit: 50 });
+      const { did, records } = await listRecordsForHandle<AtprotoPostRecord>({
+        collection: 'app.bsky.feed.post',
+        handle,
+        limit: 50,
+      });
       const posts = records
         .filter(({ value }) => value.text && value.createdAt && !value.reply)
         .sort((a, b) => {
