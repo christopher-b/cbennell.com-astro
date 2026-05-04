@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import DefaultLayout from '@layouts/Default.astro';
+
+const albums = await getCollection("albums");
+---
+
+<DefaultLayout title="Photos" description="Photos">
+  test
+   {
+    albums.map((item) => (
+      <a href={`/gallery/${item.id}`} class="group transition-all mb-4 block">
+        <Image
+          src={item.data.cover}
+          alt={item.data.title}
+          width={720}
+          quality="mid"
+          class:list={["rounded-lg transition-all", "group-hover:shadow-lg group-hover:opacity-90"]}
+        />
+        <div class="mt-4 text-center text-neutral-700">
+          <strong class="font-normal">{item.data.title}</strong>
+          <p class="text-xs">{item.data.description}</p>
+        </div>
+      </a>
+    ))
+  }
+</DefaultLayout>

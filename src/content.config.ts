@@ -30,4 +30,14 @@ const pages = defineCollection({
     }),
 });
 
-export const collections = { posts, pages };
+const albums = defineCollection({
+  type: "data",
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      cover: image(),
+    }),
+});
+
+export const collections = { posts, pages, albums };
