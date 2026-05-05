@@ -5,7 +5,6 @@ heroImage: "pindrops.png"
 description: "An ATProto application. Add pins to your map."
 slug: "pindrops-an-experiment-in-atproto-svelte-maps-wip"
 status: "published"
-section: "lab"
 ---
 
 I built [PinDrops](https://pindrops.app/) ([repo](https://github.com/christopher-b/pindrops)) as an excuse to learn AT Protocol and Svelte/Kit.

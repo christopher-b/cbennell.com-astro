@@ -6,6 +6,8 @@ import DefaultLayout from '@layouts/Default.astro';
 import HeroImage from '@components/HeroImage.astro';
 
 const page = await getPageBySlug('about');
+if (!page) throw new Error('About page not found');
+
 const { Content } = await render(page);
 const { title, description, heroImage } = page.data;
 const coverImage = await getCoverImage(heroImage, title);

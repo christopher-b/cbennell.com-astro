@@ -1,9 +1,9 @@
 ---
-import { getPublishedPostsBySection } from '@lib/posts';
+import { getPublishedLabs } from '@lib/lab';
 import DefaultLayout from '@layouts/Default.astro';
 import Card from '@components/Card.astro';
 
-const posts = await getPublishedPostsBySection('lab');
+const posts = await getPublishedLabs();
 const description = 'Projects, experiments, ideas in progress.';
 ---
 
@@ -13,7 +13,7 @@ const description = 'Projects, experiments, ideas in progress.';
     <p class="deck">{description}</p>
     {
       posts.map((post) => (
-        <Card post={post} />
+        <Card post={post}  />
       ))
     }
   </article-list>

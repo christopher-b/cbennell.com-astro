@@ -28,8 +28,13 @@
   --font-2xl: clamp(2.3328rem, 2.0387rem + 1.3072vw, 3.0518rem);
   --font-3xl: clamp(2.7994rem, 2.384rem + 1.8461vw, 3.8147rem);
 
-  /* Fonts
+  /* Fonts */
   /* These are taken from https://modernfontstacks.com */
+  --font-mono-code:
+    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+  --font-transitional:
+    Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
   /* --font-antique: */
   /*   Superclarendon, "Bookman Old Style", "URW Bookman", "URW Bookman L", */
   /*   "Georgia Pro", Georgia, serif; */
@@ -49,9 +54,6 @@
   /* --font-industrial: */
   /*   Bahnschrift, "DIN Alternate", "Franklin Gothic Medium", */
   /*   "Nimbus Sans Narrow", sans-serif-condensed, sans-serif; */
-  --font-mono-code:
-    ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
-    "DejaVu Sans Mono", monospace;
   /* --font-mono-slab: "Nimbus Mono PS", "Courier New", monospace; */
   /* --font-neogrotesque: */
   /*   Inter, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans", Arial, */
@@ -66,11 +68,8 @@
   /*   Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif", "Sitka Small", */
   /*   serif; */
   /* --font-system-ui: system-ui, sans-serif; */
-  --font-transitional:
-    Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
 
-  /* --font-display: var(--gh-font-heading, Inter, sans-serif); */
-  --font-body: var(--font-transitional), sans-serif;
+  --font-body: var(--font-transitional), serif;
   --font-display: var(--font-inter), sans-serif;
   --font-mono: var(--font-mono-code), monospace;
 

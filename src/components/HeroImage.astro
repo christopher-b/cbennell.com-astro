@@ -10,7 +10,7 @@ const { image } = Astro.props;
 ---
 
 {image && (
-  <picture feature>
-    <Image src={image.src} alt={image.alt} />
+  <picture class="feature">
+    <Image src={image.src} alt={image.alt} loading="eager" fetchpriority="high"/>
   </picture>
 )}

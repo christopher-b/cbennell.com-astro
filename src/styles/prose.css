@@ -1,4 +1,13 @@
-content {
+.prose {
+  :is(h1, h2, h3, h4, h5, h6) {
+    margin-block-start: var(--s3);
+  }
+
+  p {
+    max-inline-size: var(--measure);
+    margin-block: var(--s1);
+  }
+
   img {
     margin-block: var(--s1);
     --gap: var(--s2);
