@@ -1,5 +1,6 @@
 import rss from "@astrojs/rss";
-import { getPostUrl, getPublishedPosts } from "@lib/posts";
+import { getPublishedPosts } from "@lib/posts";
+import { getEntryUrl } from "@lib/util";
 import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
 
 export async function GET(context) {
@@ -10,7 +11,7 @@ export async function GET(context) {
     site: context.site,
     items: posts.map((post) => ({
       ...post.data,
-      link: getPostUrl(post),
+      link: getEntryUrl(post),
     })),
   });
 }
