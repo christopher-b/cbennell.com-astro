@@ -1,6 +1,6 @@
 ---
 interface Props {
-  post: CollectionEntry<'posts'>;
+  post: CollectionEntry<'posts'>|CollectionEntry<'lab'>;
 }
 import type { CollectionEntry } from 'astro:content';
 import { render } from 'astro:content';

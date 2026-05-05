@@ -29,6 +29,9 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "eslint": "^10.3.0",
+    "eslint-plugin-astro": "^1.7.0",
+    "photoswipe": "^5.4.4",
     "wrangler": "^4.85.0"
   }
 }

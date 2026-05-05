@@ -4,7 +4,7 @@ Personal site for cbennell.com, built with Astro.
 
 ## Todo
 
-- Cleanup usage of image filenames / image objects in layout, HeroImage, etc.
+- Replace default image
 
 ## Requirements
 

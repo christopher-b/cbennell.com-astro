@@ -1,0 +1,32 @@
+---
+title: "Photographs"
+pubDate: "2026-05-04T20:56:45.000Z"
+heroImage: "carnations.jpg"
+description: "I used to take photos all the time, then I stopped. This is an attempt to get back into it and to post my work."
+slug: "photos"
+status: "published"
+---
+
+import { getAlbums } from '@lib/albums';
+export const albums = await getAlbums();
+
+<content class="prose">
+I used to take <em>a lot of photos</em>, then I stopped. This is an attempt to get back into taking photos.
+
+In an attempt to improve my photography, I've started carrying a camera around. The act of carrying a camera makes your actively aware of opportunities for photos. This is fundamentally differnt from just having your phone camera on you at all times. I'm carrying a Fujifilm XQ1, which is pretty old as far as digital cameras go, but it has some great features, and it's about as small as it gets.
+
+I'm trying to post shots each month. I'm hoping this will encourage me to take more photos.
+
+## Albums
+
+{
+  albums.map((item) => (
+    <p>
+      <a href={`/lab/photos/${item.data.title}`} >
+        <strong class="font-normal">{item.data.title}</strong>
+        <p class="text-xs">{item.data.description}</p>
+      </a>
+    </p>
+  ))
+}
+</content>

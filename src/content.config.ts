@@ -1,5 +1,5 @@
 import { defineCollection } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 
 const posts = defineCollection({
@@ -18,6 +18,20 @@ const posts = defineCollection({
     }),
 });
 
+const lab = defineCollection({
+  loader: glob({ base: "./src/content/lab", pattern: "**/*.{md,mdx}" }),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      link: z.string().optional(),
+      slug: z.string(),
+      pubDate: z.coerce.date(),
+      heroImage: z.string().optional(),
+      status: z.enum(["draft", "published"]).optional(),
+    }),
+});
+
 const pages = defineCollection({
   loader: glob({ base: "./src/content/pages", pattern: "**/*.{md,mdx}" }),
   schema: () =>
@@ -30,4 +44,13 @@ const pages = defineCollection({
     }),
 });
 
-export const collections = { posts, pages };
+const albums = defineCollection({
+  loader: file("src/content/albums.json"),
+  schema: () =>
+    z.object({
+      title: z.string(),
+      description: z.string().optional(),
+    }),
+});
+
+export const collections = { posts, lab, pages, albums };

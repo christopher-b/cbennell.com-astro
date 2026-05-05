@@ -1,20 +1,7 @@
----
-import DefaultLayout from '@layouts/Default.astro';
-
-const description = 'My latest Bluesky posts.';
----
-
-<DefaultLayout title="Bluesky" description={description}>
-  <article-list>
-    <h1>Bluesky</h1>
-    <p class="deck">{description}</p>
-
-    <section class="bsky-feed" aria-live="polite" aria-busy="true" data-bsky-feed>
-      <p data-bsky-status>Loading latest posts...</p>
-      <ol class="bsky-posts" data-bsky-posts></ol>
-    </section>
-  </article-list>
-</DefaultLayout>
+<section class="bsky-feed" aria-live="polite" aria-busy="true" data-bsky-feed>
+  <p data-bsky-status>Loading latest posts...</p>
+  <ol class="bsky-posts" data-bsky-posts></ol>
+</section>
 
 <template data-bsky-template>
   <li>

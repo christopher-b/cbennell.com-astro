@@ -1,0 +1,114 @@
+---
+import { Image } from 'astro:assets';
+import DefaultLayout from '@layouts/Default.astro';
+import { getAlbums, getAlbumImages } from '@lib/albums';
+
+export async function getStaticPaths() {
+  const allAlbums = await getAlbums();
+	return allAlbums.map((album) => ({
+		params: { album: album.data.title },
+		props: album,
+	}));
+}
+
+const album  = Astro.props;
+const title = `Snapshots ${album.data.title}`;
+const images = await getAlbumImages(album.id);
+---
+
+<DefaultLayout title={title} description={title}>
+  <article>
+  <h1><a href="/lab/photos/">Photos</a> / {title}</h1>
+  <section id="gallery" class="masonry">
+  {
+    images.map((image) => (
+      <a
+        href={image.src}
+        data-pswp-width={image.width}
+        data-pswp-height={image.height}
+        target="_blank"
+      >
+        <Image src={image} alt="" />
+      </a>
+    ))
+  }
+  </section>
+  </article>
+</DefaultLayout>
+
+<script>
+    import PhotoSwipeLightbox from "photoswipe/lightbox";
+    import "photoswipe/style.css";
+
+    const lightbox = new PhotoSwipeLightbox({
+        gallery: "#gallery",
+        children: "a",
+        pswpModule: () => import("photoswipe"),
+    });
+
+    lightbox.init();
+</script>
+
+<style>
+#gallery {
+  margin-block-start: var(--s1);
+}
+
+:global(.pswp__counter) {
+  font-family: var(--font-display);
+}
+
+.masonry {
+  columns: 3;
+  column-gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.masonry * {
+  break-inside: avoid;
+  margin-bottom: 6px;
+  overflow: hidden;
+}
+
+.masonry * img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* .masonry * img:hover { */
+/*   opacity: 0.85; */
+/*   transition: opacity 150ms ease; */
+/* } */
+
+@media (max-width: 600px) {
+  .masonry { columns: 2; }
+}
+@media (max-width: 360px) {
+  .masonry { columns: 1; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--s-1);
+}
+
+.grid * {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.grid * img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.grid * img:hover {
+  opacity: 0.85;
+  transition: opacity 150ms ease;
+}
+</style>

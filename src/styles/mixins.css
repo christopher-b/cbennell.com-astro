@@ -8,12 +8,15 @@
 
 /* https://every-layout.dev/layouts/frame/ */
 @define-mixin frame $ratio: 16/9 {
-  aspect-ratio: $ratio;
+  /* aspect-ratio: $ratio; */
   & > img,
   & > video {
     inline-size: 100%;
-    block-size: 100%;
+    /* block-size: 100%; */
+    block-size: auto;
+    max-block-size: calc(100cqi / 2.35);
     object-fit: cover;
+    display: block;
   }
 }
 

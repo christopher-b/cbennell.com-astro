@@ -5,7 +5,6 @@ heroImage: "haider-zalghout-KRj0jz2uH3w-unsplash.jpg"
 description: "Vapour is a Ghost CMS theme with support for Vite & TailwindCSS. I breakdown the obstacles for using these technologies together, and how I built a solution."
 slug: "vapour-a-ghost-cms-theme-for-vite-tailwindcss"
 status: "published"
-section: "lab"
 ---
 
 When I started building a [theme](https://github.com/christopher-b/cbennell.com-ghost) for my [Ghost](https://ghost.org/) site, I wanted all the benefits of a modern front-end tool set. For me, that meant [Vite](https://vite.dev/) and [TailwindCSS](https://tailwindcss.com/) (although I ended up [ditching Tailwind](https://cbennell.com/posts/site-redesign-postmortem/) halfway through). It turns out there are some hoops to jump through to get a good experience using Vite with Ghost. I thought it would be worthwhile sharing my solutions, so I packaged them as a standalone Ghost theme: [Vapour](https://github.com/christopher-b/vapour).
