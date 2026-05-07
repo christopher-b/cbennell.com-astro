@@ -63,6 +63,13 @@ article > content {
   font-size: var(--font-md);
 }
 
+blockquote {
+  border-inline-start: var(--s-3) solid var(--color-accent-light);
+  border-radius: var(--s-5);
+  padding-inline-start: var(--s-2);
+  font-style: italic;
+}
+
 p code {
   /* Inline code samples. Our fixed-width font is larger, so we reduce it. */
   font-size: 0.9em;

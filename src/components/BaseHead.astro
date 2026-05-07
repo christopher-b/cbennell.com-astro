@@ -2,7 +2,7 @@
 import { Font } from "astro:assets";
 import { SITE_TITLE } from '@src/consts';
 import type { CoverImage } from '@lib/images';
-import FallbackImage from '@assets/blog-placeholder-1.jpg';
+import FallbackImage from '@assets/fallback.avif';
 import '@styles/index.css';
 
 interface Props {
@@ -19,7 +19,7 @@ const metadataImage = image?.src ?? FallbackImage;
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<link rel="icon" href="/favicon.ico" />
+<link rel="icon" href="/favicon.svg" />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
