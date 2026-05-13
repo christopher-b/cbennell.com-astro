@@ -13,7 +13,6 @@ const posts = defineCollection({
       pubDate: z.coerce.date(),
       heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),
-      section: z.enum(["post", "lab"]),
       tags: z.array(z.string()).optional(),
     }),
 });

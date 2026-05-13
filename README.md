@@ -4,8 +4,6 @@ Personal site for cbennell.com, built with Astro.
 
 ## Todo
 
-- Replace default image
-
 ## Requirements
 
 - Node.js `>=22.12.0`

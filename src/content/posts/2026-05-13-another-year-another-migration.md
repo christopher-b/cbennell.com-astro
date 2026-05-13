@@ -1,13 +1,13 @@
 ---
-title: "I Wrote Some Slop, and I didn't Like It"
-pubDate: "2026-02-19T01:29:00.000Z"
-description: ""
-slug: "i-wrote-some-slop-and-i-didnt-like-it"
-status: "draft"
+title: Another Year, Another Website Platform Migration
+pubDate: 2026-05-13
+description: TBD
+slug: another-year-another-migration
+status: draft
 tags:
   - draft
 ---
-
+Another Year, Another Website Platform Migration
 Had a hobby project I had been working on. A proof of concept, excuse to learn a new thing (in this case ATProto and SvelteKit). I wrote it by hand, stumbing a bit as I was working with a few technologies that were new to me. I got to MVP state, but still had a few things i wanted to add before I could call it "done". Then it sat around for three months without being touched.
 
 This morning I fired up Opencode and slopped my way through the last few features. A few hours of prompting and background work, and it was done and ready to launch with the new features.
