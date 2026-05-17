@@ -8,7 +8,7 @@
   <li>
     <header>
       <h2>
-        <img alt="Game logo" />
+        <img alt="Game logo" width="28" height="28" />
       </h2>
       <p class="last-played">
         Last game
@@ -55,6 +55,7 @@
   const status = document.querySelector<HTMLParagraphElement>('[data-puzzmo-status]');
   const list = document.querySelector('[data-puzzmo-stats]');
   const template = document.querySelector<HTMLTemplateElement>('[data-puzzmo-template]');
+  const exclude = ["cubeclear", "circuits", "weather-memoku", "typeshift"]
 
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-GB', {
@@ -81,6 +82,7 @@
       });
       const streaks = records
         .filter(({ value }) => value.teamSlug === 'puzzmo' && value.gameSlug)
+        .filter(({ value }) => typeof value.gameSlug === 'string' && !exclude.includes(value.gameSlug))
         .sort((a, b) => {
           return (b.value.current ?? 0) - (a.value.current ?? 0)
             || (b.value.total ?? 0) - (a.value.total ?? 0)
