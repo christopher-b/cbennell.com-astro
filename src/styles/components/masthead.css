@@ -1,0 +1,16 @@
+.masthead {
+  & a {
+    @mixin cluster;
+    align-items: center;
+  }
+
+  & h1 {
+    flex: 1;
+  }
+
+  & img {
+    max-width: var(--s5);
+    max-height: var(--s5);
+    border-radius: 50%;
+  }
+}

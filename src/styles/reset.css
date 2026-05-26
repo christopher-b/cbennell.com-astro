@@ -64,7 +64,7 @@ h4,
 h5,
 h6 {
   margin-block-start: 0;
-  text-wrap: balance;
+  /* text-wrap: balance; */
 }
 
 /* A elements that don't have a class get default styles */
