@@ -19,14 +19,15 @@ I'm trying to post shots each month. I'm hoping this will encourage me to take m
 
 ## Albums
 
+<ul>
 {
   albums.map((item) => (
-    <p>
+    <li>
       <a href={`/lab/photos/${item.data.title}`} >
         <strong class="font-normal">{item.data.title}</strong>
-        <p class="text-xs">{item.data.description}</p>
       </a>
-    </p>
+    </li>
   ))
 }
+</ul>
 </content>
