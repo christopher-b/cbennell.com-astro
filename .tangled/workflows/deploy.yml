@@ -1,0 +1,21 @@
+when:
+  - event: ["push", "manual"]
+    branch: ["main"]
+  - event: ["pull_request"]
+    branch: ["main"]
+engine: "nixery"
+dependencies:
+  nixpkgs:
+    - nodejs
+    - wrangler
+steps:
+  - name: "Login to Cloudflare"
+    command: "wrangler login [OPTIONS]"
+  - name: "Deploy"
+    command: "npx wrangler deploy"
+    environment:
+      NODE_ENV: "production"
+  # - name: "Build"
+  #   command: "npm run build"
+  #   environment:
+  #     NODE_ENV: "production"
