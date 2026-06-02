@@ -7,7 +7,7 @@ engine: "nixery"
 dependencies:
   nixpkgs:
     - nodejs
-    - wrangler
+    # - wrangler
 steps:
   - name: "Login to Cloudflare"
     command: "wrangler login [OPTIONS]"
