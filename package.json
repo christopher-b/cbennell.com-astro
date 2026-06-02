@@ -17,7 +17,7 @@
     "@astrojs/mdx": "^5.0.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.2",
-    "@expressive-code/core": "^0.41.7",
+    "@expressive-code/core": "^0.35.3",
     "@fujocoded/expressive-code-caption": "^0.0.3",
     "astro": "^6.1.8",
     "astro-expressive-code": "^0.41.7",
