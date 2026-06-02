@@ -14,6 +14,7 @@ const posts = defineCollection({
       heroImage: z.string().optional(),
       status: z.enum(["draft", "published"]).optional(),
       tags: z.array(z.string()).optional(),
+      atprotoRkey: z.string().optional(),
     }),
 });
 

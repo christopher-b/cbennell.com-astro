@@ -4,3 +4,6 @@
 export const SITE_TITLE = "Christopher Bennell";
 export const SITE_DESCRIPTION =
   "I build web stuff. Full Stack/Platform Engineering/Architecture. Senior Software Engineer.";
+export const ATPROTO_DID = "did:plc:wkqtjo7h6w64nbe7aelfenuo";
+export const STANDARD_SITE_PUBLICATION_URI =
+  "at://did:plc:wkqtjo7h6w64nbe7aelfenuo/site.standard.publication/3mnbo7pkdxi24";
