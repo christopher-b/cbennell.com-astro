@@ -10,7 +10,7 @@ dependencies:
     # - wrangler
 steps:
   - name: "Install deps"
-    command: "npm install"
+    command: "npm ci"
   - name: "Login to Cloudflare"
     command: "wrangler login [OPTIONS]"
   - name: "Build"
