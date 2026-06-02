@@ -15,4 +15,4 @@ steps:
   - name: "Login to Cloudflare"
     command: "npx wrangler login"
   - name: "Deploy"
-    command: "npx wrangler deploy --env preview"
+    command: "npx wrangler versions upload --preview-alias staging"
