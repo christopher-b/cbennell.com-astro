@@ -12,7 +12,7 @@ steps:
   - name: "Install deps"
     command: "npm ci"
   - name: "Login to Cloudflare"
-    command: "npx wrangler login [OPTIONS]"
+    command: "npx wrangler login"
   - name: "Build"
     command: "npm run build"
     environment:
