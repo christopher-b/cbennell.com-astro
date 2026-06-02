@@ -1,5 +1,5 @@
 when:
-  - event: ["push", "manual"]
+  - event: ["pull_request"]
     branch: ["main"]
 engine: "nixery"
 dependencies:
@@ -15,4 +15,4 @@ steps:
   - name: "Login to Cloudflare"
     command: "npx wrangler login"
   - name: "Deploy"
-    command: "npx wrangler deploy"
+    command: "npx wrangler deploy --env preview"
