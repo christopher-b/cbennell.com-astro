@@ -96,6 +96,8 @@ steps:
 ---
 ```
 
+A cool feature of Tangled is that when you push commits that trigger CI runs, the remote will reply with a SSH command you can run to watch the CI log, right in your terminal.
+
 ## The Future?
 
 I'm not yet certain how much I will be migrating away from GitHub. There's some stuff that still needs to live there, and it's not ideal to have my work scattered across platforms. This is an experiment, to learn about the experience.
