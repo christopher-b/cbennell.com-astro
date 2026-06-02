@@ -5,6 +5,7 @@ description: Deploy your static content to Cloudflare with Tangled.org CI workfl
 slug: tangled-cloudflare-deploy
 status: published
 atprotoRkey: 3mnd37gw6ukup
+heroImage: "grid-1.jpeg"
 tags:
   - ops
   - atproto
