@@ -4,6 +4,7 @@ pubDate: 2026-06-02
 description: Deploy your static content to Cloudflare with Tangled.org CI workflows. Goodbye, GitHub Actions.
 slug: tangled-cloudflare-deploy
 status: published
+atprotoRkey: 3mnd37gw6ukup
 tags:
   - ops
   - atproto
