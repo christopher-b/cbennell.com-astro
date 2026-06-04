@@ -218,4 +218,18 @@ const blueskyLink = `https://bsky.app/profile/${ATPROTO_DID}/post/${blueskyId}`;
   .replies {
     margin-left: 1.5rem;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .comment {
+      background-color: var(--color-neutral-950);
+      border-color: var(--color-neutral-900);
+
+      header {
+        color: var(--color-neutral-200);
+      }
+      footer {
+        color: var(--color-neutral-200);
+      }
+    }
+  }
 </style>
