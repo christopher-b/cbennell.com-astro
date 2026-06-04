@@ -1,0 +1,221 @@
+---
+import { ATPROTO_DID } from "../consts";
+import Icon from "@components/Icon.astro";
+import Spinner from "@components/Spinner.astro";
+
+interface Props {
+  blueskyId: string;
+}
+
+const { blueskyId } = Astro.props;
+
+const uri = `at://${ATPROTO_DID}/app.bsky.feed.post/${blueskyId}`;
+const blueskyLink = `https://bsky.app/profile/${ATPROTO_DID}/post/${blueskyId}`;
+---
+
+<aside class="comments-section" data-comments-section data-uri={uri}>
+  <h2>Comments</h2>
+  <p>
+    Reply <a href={blueskyLink} target="_blank" rel="noopener noreferrer">on Bluesky</a>.
+  </p>
+
+  <p class="comments-status" data-comments-status><Spinner /> Loading comments...</p>
+  <section class="comments-list" data-comments-list hidden></section>
+
+  <template data-comment-template>
+    <article class="comment">
+      <header>
+        <img class="avatar" data-avatar alt="" loading="lazy" />
+        <span class="author-name" data-author-name></span>
+        &bull;
+        <time data-indexed-at></time>
+      </header>
+
+      <div class="comment-content" data-content></div>
+
+      <footer>
+        <p>
+          <Icon name="heart" />
+          <span data-like-count></span>
+        </p>
+        <p>
+          <Icon name="word-bubble" />
+          <span data-reply-count></span>
+        </p>
+      </footer>
+    </article>
+    <div class="replies" data-replies hidden></div>
+  </template>
+</aside>
+
+<script>
+  interface BlueskyPost {
+    post: {
+      author: {
+        avatar?: string;
+        displayName?: string;
+        handle?: string;
+      };
+      record?: {
+        text?: string;
+      };
+      indexedAt: string;
+      likeCount?: number;
+      repostCount?: number;
+      replyCount?: number;
+    };
+    replies?: BlueskyPost[];
+  }
+
+  const formatCount = (count: number | undefined) => `${count || 0}`;
+
+  const createComment = (
+    comment: BlueskyPost,
+    template: HTMLTemplateElement,
+    isReply = false,
+  ) => {
+    const author = comment.post.author;
+    const displayName = author.displayName || author.handle || "Bluesky user";
+    const fragment = template.content.cloneNode(true) as DocumentFragment;
+    const commentElement = fragment.firstElementChild as HTMLElement;
+
+    if (isReply) {
+      commentElement.classList.add("reply");
+    }
+
+    const avatar = commentElement.querySelector<HTMLImageElement>("[data-avatar]");
+    if (avatar) {
+      if (author.avatar) {
+        avatar.src = author.avatar;
+        avatar.alt = `${displayName}'s avatar`;
+      } else {
+        avatar.hidden = true;
+      }
+    }
+
+    // const handle = commentElement.querySelector<HTMLElement>("[data-author-handle]");
+    const date = commentElement.querySelector<HTMLTimeElement>("[data-indexed-at]");
+
+    commentElement.querySelector<HTMLElement>("[data-author-name]")!.textContent = displayName;
+    commentElement.querySelector<HTMLElement>("[data-content]")!.textContent = comment.post.record?.text || "";
+    console.log(comment.post.replyCount);
+    console.log(comment.post.likeCount);
+    commentElement.querySelector<HTMLElement>("[data-reply-count]")!.textContent = formatCount(comment.post.replyCount);
+    commentElement.querySelector<HTMLElement>("[data-like-count]")!.textContent = formatCount(comment.post.likeCount);
+
+    // if (handle) {
+    //   handle.textContent = author.handle ? `@${author.handle}` : "";
+    // }
+
+    if (date) {
+      date.textContent = new Date(comment.post.indexedAt).toLocaleDateString();
+      date.dateTime = comment.post.indexedAt;
+    }
+
+    if (comment.replies?.length) {
+      const replies = fragment.querySelector<HTMLElement>("[data-replies]");
+      replies?.append(...comment.replies.map((reply) => createComment(reply, template, true)));
+      if (replies) replies.hidden = false;
+    }
+
+    return fragment;
+  };
+
+  const loadComments = async (section: HTMLElement) => {
+    const uri = section.dataset.uri;
+    const status = section.querySelector<HTMLElement>("[data-comments-status]");
+    const list = section.querySelector<HTMLElement>("[data-comments-list]");
+    const template = section.querySelector<HTMLTemplateElement>("[data-comment-template]");
+
+    if (!uri || !status || !list || !template) return;
+
+    try {
+      const endpoint = `https://api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=${encodeURIComponent(uri)}`;
+      const response = await fetch(endpoint, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch comments: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const comments = data.thread?.replies || [];
+
+      if (comments.length === 0) {
+        status.textContent = "No comments yet.";
+        status.className = "no-comments";
+        return;
+      }
+
+      list.append(...comments.map((comment: BlueskyPost) => createComment(comment, template)));
+      list.hidden = false;
+      status.remove();
+    } catch (error) {
+      status.textContent = "Can't load comments right now.";
+      status.className = "error";
+      console.error("Error:", error);
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-comments-section]").forEach(loadComments);
+</script>
+
+<style is:global>
+  .comments-section {
+    font-family: var(--font-body);
+    /* font-size: var(--font-sm); */
+  }
+
+  .comments-list {
+    margin-block: var(--s1);
+  }
+
+  .comment {
+    background-color: var(--color-neutral-50);
+    border: thin solid var(--color-neutral-100);
+    border-radius: var(--border-radius);
+    padding: var(--s-1);
+    margin-block-end: var(--s-1);
+
+    header {
+      color: var(--color-neutral-700);
+      display: flex;
+      align-items: center;
+      gap: var(--s-3);
+    }
+
+    footer {
+      color: var(--color-neutral-700);
+      display: flex;
+      gap: var(--s0);
+      font-size: var(--font-xs);
+      p {
+        margin: 0;
+      }
+    }
+
+    .avatar {
+      width: var(--s1);
+      height: var(--s1);
+      border-radius: 50%;
+    }
+
+    time {
+      font-size: var(--font-xs);
+      letter-spacing: -1.5px;
+    }
+
+    .comment-content {
+      margin-block-start: var(--s-1);
+      margin-block-end: var(--s-2);
+    }
+  }
+
+  .replies {
+    margin-left: 1.5rem;
+  }
+</style>

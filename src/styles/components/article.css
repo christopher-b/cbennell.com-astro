@@ -1,4 +1,4 @@
-article {
+article.post {
   container-type: inline-size;
 
   & > header {
@@ -41,8 +41,9 @@ article {
     max-block-size: fit-content;
   }
 
-  & footer {
+  & > footer {
     border-block-start: thin solid var(--color-border);
+    padding-block-start: var(--s3);
     margin-block-start: var(--s3);
 
     nav ul {

@@ -79,4 +79,6 @@
   --color-accent-dark: #222f27;
 
   --color-border: var(--color-neutral-300);
+
+  --border-radius: var(--s-3);
 }
